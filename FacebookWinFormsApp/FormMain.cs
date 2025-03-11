@@ -20,7 +20,9 @@ namespace BasicFacebookFeatures
         }
 
         FacebookWrapper.LoginResult m_LoginResult;
-
+        FacebookWrapper.ObjectModel.User m_LoggedInUser;
+        string m_AccessToken = "EAAQpHAqlOz0BO2IBiTJCVYHPj3WnYUlzfuXZBYjNSkeLfsKmz5GdNBkogSF9PEqzTsIcwTPBoZBmnSJszELKDKoarYHfpQckxXesdoxLbxyklG0fOInE3zsHHqlsszWu9cR6tZCG68ik8Dw1HWf2uLoKZAQ0IcmBxxDG7Qcd9g9B7kKY9ZBUw04PFXAZDZD";
+            
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
@@ -33,22 +35,30 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            m_LoginResult = FacebookService.Login(
+            m_LoginResult = FacebookService.Connect(m_AccessToken);
+/*            m_LoginResult = FacebookService.Login(
                 /// (This is Desig Patter's App ID. replace it with your own)
-                textBoxAppID.Text,
+                "1171100321266493",//textBoxAppID.Text,
                 /// requested permissions:
                 "email",
-                "public_profile"
+                "public_profile",
+                "user_hometown"
                 /// add any relevant permissions
-                );
+                );*/
 
-            if (string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
+            if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
-                buttonLogin.Text = $"Logged in as {m_LoginResult.LoggedInUser.Name}";
+                m_LoggedInUser = m_LoginResult.LoggedInUser;
+                buttonLogin.Text = $"Logged in as {m_LoggedInUser.Name}";
                 buttonLogin.BackColor = Color.LightGreen;
-                pictureBoxProfile.ImageLocation = m_LoginResult.LoggedInUser.PictureNormalURL;
+                pictureBoxProfile.ImageLocation = m_LoggedInUser.PictureLargeURL;
                 buttonLogin.Enabled = false;
                 buttonLogout.Enabled = true;
+                labelUserName.Text=  m_LoggedInUser.Name;
+                labelHomeTown.Text = "Tel Aviv"; // m_LoggedInUser.Hometown.Name;
+                m_AccessToken = m_LoginResult.AccessToken;
+                //m_LoggedInUser.
+                
             }
         }
 
