@@ -33,11 +33,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonShowAlbums = new System.Windows.Forms.Button();
+            this.labelGender = new System.Windows.Forms.Label();
+            this.labelBirthday = new System.Windows.Forms.Label();
+            this.labelHomeTown = new System.Windows.Forms.Label();
+            this.labelUserName = new System.Windows.Forms.Label();
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.textBoxAppID = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.labelUserName = new System.Windows.Forms.Label();
-            this.labelHomeTown = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
@@ -90,6 +93,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.buttonShowAlbums);
+            this.tabPage1.Controls.Add(this.labelGender);
+            this.tabPage1.Controls.Add(this.labelBirthday);
             this.tabPage1.Controls.Add(this.labelHomeTown);
             this.tabPage1.Controls.Add(this.labelUserName);
             this.tabPage1.Controls.Add(this.pictureBoxProfile);
@@ -104,6 +110,56 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // buttonShowAlbums
+            // 
+            this.buttonShowAlbums.Location = new System.Drawing.Point(420, 157);
+            this.buttonShowAlbums.Name = "buttonShowAlbums";
+            this.buttonShowAlbums.Size = new System.Drawing.Size(75, 52);
+            this.buttonShowAlbums.TabIndex = 62;
+            this.buttonShowAlbums.Text = "button1";
+            this.buttonShowAlbums.UseVisualStyleBackColor = true;
+            this.buttonShowAlbums.Click += new System.EventHandler(this.buttonShowListAlbums_Click);
+            // 
+            // labelGender
+            // 
+            this.labelGender.AutoSize = true;
+            this.labelGender.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGender.Location = new System.Drawing.Point(152, 169);
+            this.labelGender.Name = "labelGender";
+            this.labelGender.Size = new System.Drawing.Size(24, 27);
+            this.labelGender.TabIndex = 60;
+            this.labelGender.Text = "jj";
+            // 
+            // labelBirthday
+            // 
+            this.labelBirthday.AutoSize = true;
+            this.labelBirthday.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelBirthday.Location = new System.Drawing.Point(152, 232);
+            this.labelBirthday.Name = "labelBirthday";
+            this.labelBirthday.Size = new System.Drawing.Size(24, 27);
+            this.labelBirthday.TabIndex = 59;
+            this.labelBirthday.Text = "jj";
+            // 
+            // labelHomeTown
+            // 
+            this.labelHomeTown.AutoSize = true;
+            this.labelHomeTown.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHomeTown.Location = new System.Drawing.Point(152, 196);
+            this.labelHomeTown.Name = "labelHomeTown";
+            this.labelHomeTown.Size = new System.Drawing.Size(24, 27);
+            this.labelHomeTown.TabIndex = 58;
+            this.labelHomeTown.Text = "jj";
+            // 
+            // labelUserName
+            // 
+            this.labelUserName.AutoSize = true;
+            this.labelUserName.Font = new System.Drawing.Font("Arial Narrow", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserName.Location = new System.Drawing.Point(152, 114);
+            this.labelUserName.Name = "labelUserName";
+            this.labelUserName.Size = new System.Drawing.Size(33, 40);
+            this.labelUserName.TabIndex = 56;
+            this.labelUserName.Text = "jj";
             // 
             // pictureBoxProfile
             // 
@@ -131,26 +187,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // labelUserName
-            // 
-            this.labelUserName.AutoSize = true;
-            this.labelUserName.Font = new System.Drawing.Font("Arial Narrow", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserName.Location = new System.Drawing.Point(152, 130);
-            this.labelUserName.Name = "labelUserName";
-            this.labelUserName.Size = new System.Drawing.Size(33, 40);
-            this.labelUserName.TabIndex = 56;
-            this.labelUserName.Text = "jj";
-            // 
-            // labelHomeTown
-            // 
-            this.labelHomeTown.AutoSize = true;
-            this.labelHomeTown.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHomeTown.Location = new System.Drawing.Point(152, 170);
-            this.labelHomeTown.Name = "labelHomeTown";
-            this.labelHomeTown.Size = new System.Drawing.Size(24, 27);
-            this.labelHomeTown.TabIndex = 58;
-            this.labelHomeTown.Text = "jj";
             // 
             // FormMain
             // 
@@ -183,6 +219,9 @@
         private System.Windows.Forms.PictureBox pictureBoxProfile;
         private System.Windows.Forms.Label labelUserName;
         private System.Windows.Forms.Label labelHomeTown;
+        private System.Windows.Forms.Label labelBirthday;
+        private System.Windows.Forms.Label labelGender;
+        private System.Windows.Forms.Button buttonShowAlbums;
     }
 }
 
