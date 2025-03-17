@@ -87,19 +87,16 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="PictureListBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PictureListBox.Designer.cs">
-      <DependentUpon>PictureListBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetOfThreeHorizontalButtons.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetOfThreeHorizontalButtons.Designer.cs">
+      <DependentUpon>SetOfThreeHorizontalButtons.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PictureListBox.resx">
-      <DependentUpon>PictureListBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -111,6 +108,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SetOfThreeHorizontalButtons.resx">
+      <DependentUpon>SetOfThreeHorizontalButtons.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -128,6 +128,9 @@
     <PackageReference Include="CefSharp.WinForms">
       <Version>87.1.132</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\facebookLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
