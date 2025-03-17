@@ -17,6 +17,8 @@ namespace BasicFacebookFeatures
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
+            tabControl1.TabPages.Remove(tabPage2);
+            panel3.Visible = false;
         }
 
         FacebookWrapper.LoginResult m_LoginResult;
@@ -26,8 +28,6 @@ namespace BasicFacebookFeatures
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText("design.patterns");
-
             if (m_LoginResult == null)
             {
                 login();
@@ -52,27 +52,16 @@ namespace BasicFacebookFeatures
                 "user_posts",
                 "user_videos"
 
-
-                /// add any relevant permissions
+                //user_link
+                //user_likes
+                
                 );*/
 
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
-                buttonLogin.Text = $"Logged in as {m_LoggedInUser.Name}";
-                buttonLogin.BackColor = Color.LightGreen;
-                pictureBoxProfile.ImageLocation = m_LoggedInUser.PictureLargeURL;
-                buttonLogin.Enabled = false;
-                buttonLogout.Enabled = true;
-
-                DateTime birthday = DateTime.Parse(m_LoggedInUser.Birthday);
-                int age = calculateAge(birthday);
-
-                labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
-                labelBirthday.Text = m_LoggedInUser.Birthday;
-                labelHomeTown.Text = m_LoggedInUser.Location.Name;
-                labelGender.Text = m_LoggedInUser.Gender.ToString();
-                m_AccessToken = m_LoginResult.AccessToken; 
+                m_AccessToken = m_LoginResult.AccessToken;
+                showLoggedInUser();
             }
         }
 
@@ -97,21 +86,42 @@ namespace BasicFacebookFeatures
             }
 
             return age;
+        } 
+
+        private void showLoggedInUser()
+        {
+            buttonLogin.Text = $"Logged in as {m_LoggedInUser.Name}";
+            pictureBoxProfile.ImageLocation = m_LoggedInUser.PictureLargeURL;
+            labelBirthday.Text = m_LoggedInUser.Birthday;
+            labelHomeTown.Text = m_LoggedInUser.Location.Name;
+            labelGender.Text = m_LoggedInUser.Gender.ToString();
+            DateTime birthday = DateTime.Parse(m_LoggedInUser.Birthday);
+            int age = calculateAge(birthday);
+            labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
+
+            panel3.Visible = true;
+            buttonLogin.BackColor = Color.LightGreen;
+            buttonLogin.Enabled = false;
+            buttonLogout.Enabled = true;
+            tabControl1.TabPages.Add(tabPage2);
+            buttonLogin.Left = buttonLogout.Left;
+
+            showUserPosts();
         }
 
-        private void buttonShowListAlbums_Click(object sender, EventArgs e)
+        private void showUserPosts()
         {
-            listBoxAlbums.Items.Clear();
-            listBoxAlbums.DisplayMember = "Name";
-
-            foreach (Album album in m_LoggedInUser.Albums)
+            listBoxUserPosts.Items.Clear();
+            listBoxUserPosts.DisplayMember = "Name";
+            foreach (Post post in m_LoggedInUser.Posts)
             {
-                listBoxAlbums.Items.Add(album);
+                listBoxUserPosts.Items.Add(post);
             }
 
-            if (listBoxAlbums.Items.Count == 0)
+            if (listBoxUserPosts.Items.Count == 0)
             {
-                MessageBox.Show("You have no friends :(");
+                MessageBox.Show($"You haven't posted anthing yet{Environment.NewLine}Click here to create a new post");
+                //button
             }
         }
     }

@@ -30,28 +30,38 @@
         {
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.buttonShowAlbums = new System.Windows.Forms.Button();
-            this.labelGender = new System.Windows.Forms.Label();
-            this.labelBirthday = new System.Windows.Forms.Label();
-            this.labelHomeTown = new System.Windows.Forms.Label();
-            this.labelUserName = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
-            this.textBoxAppID = new System.Windows.Forms.TextBox();
+            this.listBoxUserPosts = new System.Windows.Forms.ListBox();
+            this.labelUserName = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.labelHomeTown = new System.Windows.Forms.Label();
+            this.buttonEditProfile = new System.Windows.Forms.Button();
+            this.labelStudyPlace = new System.Windows.Forms.Label();
+            this.labelGender = new System.Windows.Forms.Label();
+            this.labelWorkPlace = new System.Windows.Forms.Label();
+            this.labelBirthday = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(18, 17);
+            this.buttonLogin.Location = new System.Drawing.Point(357, 178);
             this.buttonLogin.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(268, 32);
+            this.buttonLogin.Size = new System.Drawing.Size(325, 32);
             this.buttonLogin.TabIndex = 36;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.UseVisualStyleBackColor = true;
@@ -60,25 +70,15 @@
             // buttonLogout
             // 
             this.buttonLogout.Enabled = false;
-            this.buttonLogout.Location = new System.Drawing.Point(18, 57);
+            this.buttonLogout.Location = new System.Drawing.Point(9, 113);
             this.buttonLogout.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLogout.Name = "buttonLogout";
-            this.buttonLogout.Size = new System.Drawing.Size(268, 32);
+            this.buttonLogout.Size = new System.Drawing.Size(187, 34);
             this.buttonLogout.TabIndex = 52;
             this.buttonLogout.Text = "Logout";
             this.buttonLogout.UseVisualStyleBackColor = true;
+            this.buttonLogout.Visible = false;
             this.buttonLogout.Click += new System.EventHandler(this.buttonLogout_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(314, 17);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(713, 48);
-            this.label1.TabIndex = 53;
-            this.label1.Text = "This is the AppID of \"Design Patterns App 2.4\". The grader will use it to test yo" +
-    "ur app.\r\nType here your own AppID to test it:";
             // 
             // tabControl1
             // 
@@ -88,102 +88,169 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1243, 697);
+            this.tabControl1.Size = new System.Drawing.Size(1089, 652);
             this.tabControl1.TabIndex = 54;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.buttonShowAlbums);
-            this.tabPage1.Controls.Add(this.labelGender);
-            this.tabPage1.Controls.Add(this.labelBirthday);
-            this.tabPage1.Controls.Add(this.labelHomeTown);
-            this.tabPage1.Controls.Add(this.labelUserName);
-            this.tabPage1.Controls.Add(this.pictureBoxProfile);
-            this.tabPage1.Controls.Add(this.textBoxAppID);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.buttonLogout);
+            this.tabPage1.Controls.Add(this.panel3);
+            this.tabPage1.Controls.Add(this.panel1);
             this.tabPage1.Controls.Add(this.buttonLogin);
             this.tabPage1.Location = new System.Drawing.Point(4, 31);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1235, 662);
+            this.tabPage1.Size = new System.Drawing.Size(1081, 617);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // buttonShowAlbums
+            // panel3
             // 
-            this.buttonShowAlbums.Location = new System.Drawing.Point(420, 157);
-            this.buttonShowAlbums.Name = "buttonShowAlbums";
-            this.buttonShowAlbums.Size = new System.Drawing.Size(75, 52);
-            this.buttonShowAlbums.TabIndex = 62;
-            this.buttonShowAlbums.Text = "button1";
-            this.buttonShowAlbums.UseVisualStyleBackColor = true;
-            this.buttonShowAlbums.Click += new System.EventHandler(this.buttonShowListAlbums_Click);
+            this.panel3.Controls.Add(this.pictureBoxProfile);
+            this.panel3.Controls.Add(this.listBoxUserPosts);
+            this.panel3.Controls.Add(this.labelUserName);
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.panel2);
+            this.panel3.Location = new System.Drawing.Point(3, 217);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1075, 397);
+            this.panel3.TabIndex = 65;
             // 
-            // labelGender
+            // pictureBoxProfile
             // 
-            this.labelGender.AutoSize = true;
-            this.labelGender.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGender.Location = new System.Drawing.Point(152, 169);
-            this.labelGender.Name = "labelGender";
-            this.labelGender.Size = new System.Drawing.Size(24, 27);
-            this.labelGender.TabIndex = 60;
-            this.labelGender.Text = "jj";
+            this.pictureBoxProfile.Location = new System.Drawing.Point(3, 133);
+            this.pictureBoxProfile.Name = "pictureBoxProfile";
+            this.pictureBoxProfile.Size = new System.Drawing.Size(350, 290);
+            this.pictureBoxProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxProfile.TabIndex = 55;
+            this.pictureBoxProfile.TabStop = false;
             // 
-            // labelBirthday
+            // listBoxUserPosts
             // 
-            this.labelBirthday.AutoSize = true;
-            this.labelBirthday.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelBirthday.Location = new System.Drawing.Point(152, 232);
-            this.labelBirthday.Name = "labelBirthday";
-            this.labelBirthday.Size = new System.Drawing.Size(24, 27);
-            this.labelBirthday.TabIndex = 59;
-            this.labelBirthday.Text = "jj";
-            // 
-            // labelHomeTown
-            // 
-            this.labelHomeTown.AutoSize = true;
-            this.labelHomeTown.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHomeTown.Location = new System.Drawing.Point(152, 196);
-            this.labelHomeTown.Name = "labelHomeTown";
-            this.labelHomeTown.Size = new System.Drawing.Size(24, 27);
-            this.labelHomeTown.TabIndex = 58;
-            this.labelHomeTown.Text = "jj";
+            this.listBoxUserPosts.FormattingEnabled = true;
+            this.listBoxUserPosts.ItemHeight = 22;
+            this.listBoxUserPosts.Location = new System.Drawing.Point(647, 111);
+            this.listBoxUserPosts.Name = "listBoxUserPosts";
+            this.listBoxUserPosts.Size = new System.Drawing.Size(420, 312);
+            this.listBoxUserPosts.TabIndex = 69;
             // 
             // labelUserName
             // 
             this.labelUserName.AutoSize = true;
             this.labelUserName.Font = new System.Drawing.Font("Arial Narrow", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserName.Location = new System.Drawing.Point(152, 114);
+            this.labelUserName.Location = new System.Drawing.Point(5, 90);
             this.labelUserName.Name = "labelUserName";
-            this.labelUserName.Size = new System.Drawing.Size(33, 40);
+            this.labelUserName.Size = new System.Drawing.Size(212, 40);
             this.labelUserName.TabIndex = 56;
-            this.labelUserName.Text = "jj";
+            this.labelUserName.Text = "Username, age";
             // 
-            // pictureBoxProfile
+            // label1
             // 
-            this.pictureBoxProfile.Location = new System.Drawing.Point(18, 130);
-            this.pictureBoxProfile.Name = "pictureBoxProfile";
-            this.pictureBoxProfile.Size = new System.Drawing.Size(128, 129);
-            this.pictureBoxProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxProfile.TabIndex = 55;
-            this.pictureBoxProfile.TabStop = false;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(643, 75);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 24);
+            this.label1.TabIndex = 68;
+            this.label1.Text = "Your Posts";
             // 
-            // textBoxAppID
+            // panel2
             // 
-            this.textBoxAppID.Location = new System.Drawing.Point(317, 61);
-            this.textBoxAppID.Name = "textBoxAppID";
-            this.textBoxAppID.Size = new System.Drawing.Size(237, 28);
-            this.textBoxAppID.TabIndex = 54;
-            this.textBoxAppID.Text = "1450160541956417";
+            this.panel2.Controls.Add(this.labelHomeTown);
+            this.panel2.Controls.Add(this.buttonEditProfile);
+            this.panel2.Controls.Add(this.labelStudyPlace);
+            this.panel2.Controls.Add(this.labelGender);
+            this.panel2.Controls.Add(this.labelWorkPlace);
+            this.panel2.Controls.Add(this.labelBirthday);
+            this.panel2.Location = new System.Drawing.Point(359, 133);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(207, 264);
+            this.panel2.TabIndex = 67;
+            // 
+            // labelHomeTown
+            // 
+            this.labelHomeTown.AutoSize = true;
+            this.labelHomeTown.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHomeTown.Location = new System.Drawing.Point(3, 0);
+            this.labelHomeTown.Name = "labelHomeTown";
+            this.labelHomeTown.Size = new System.Drawing.Size(130, 27);
+            this.labelHomeTown.TabIndex = 58;
+            this.labelHomeTown.Text = "HomeTown";
+            // 
+            // buttonEditProfile
+            // 
+            this.buttonEditProfile.Location = new System.Drawing.Point(0, 195);
+            this.buttonEditProfile.Name = "buttonEditProfile";
+            this.buttonEditProfile.Size = new System.Drawing.Size(142, 34);
+            this.buttonEditProfile.TabIndex = 64;
+            this.buttonEditProfile.Text = "Edit Profile";
+            this.buttonEditProfile.UseVisualStyleBackColor = true;
+            // 
+            // labelStudyPlace
+            // 
+            this.labelStudyPlace.AutoSize = true;
+            this.labelStudyPlace.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStudyPlace.Location = new System.Drawing.Point(3, 108);
+            this.labelStudyPlace.Name = "labelStudyPlace";
+            this.labelStudyPlace.Size = new System.Drawing.Size(120, 27);
+            this.labelStudyPlace.TabIndex = 66;
+            this.labelStudyPlace.Text = "Studies at";
+            // 
+            // labelGender
+            // 
+            this.labelGender.AutoSize = true;
+            this.labelGender.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGender.Location = new System.Drawing.Point(3, 27);
+            this.labelGender.Name = "labelGender";
+            this.labelGender.Size = new System.Drawing.Size(93, 27);
+            this.labelGender.TabIndex = 60;
+            this.labelGender.Text = "Gender";
+            // 
+            // labelWorkPlace
+            // 
+            this.labelWorkPlace.AutoSize = true;
+            this.labelWorkPlace.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWorkPlace.Location = new System.Drawing.Point(3, 81);
+            this.labelWorkPlace.Name = "labelWorkPlace";
+            this.labelWorkPlace.Size = new System.Drawing.Size(126, 27);
+            this.labelWorkPlace.TabIndex = 65;
+            this.labelWorkPlace.Text = "Workplace";
+            // 
+            // labelBirthday
+            // 
+            this.labelBirthday.AutoSize = true;
+            this.labelBirthday.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelBirthday.Location = new System.Drawing.Point(3, 54);
+            this.labelBirthday.Name = "labelBirthday";
+            this.labelBirthday.Size = new System.Drawing.Size(101, 27);
+            this.labelBirthday.TabIndex = 59;
+            this.labelBirthday.Text = "Birthday";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(84)))), ((int)(((byte)(157)))));
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Controls.Add(this.buttonLogout);
+            this.panel1.Location = new System.Drawing.Point(0, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1081, 160);
+            this.panel1.TabIndex = 63;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::BasicFacebookFeatures.Properties.Resources.facebookLogo;
+            this.pictureBox1.Location = new System.Drawing.Point(314, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(424, 154);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 64;
+            this.pictureBox1.TabStop = false;
             // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 31);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1235, 662);
+            this.tabPage2.Size = new System.Drawing.Size(1081, 617);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -192,7 +259,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1243, 697);
+            this.ClientSize = new System.Drawing.Size(1089, 652);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -201,8 +268,13 @@
             this.Text = "Facebook";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -211,17 +283,23 @@
 
 		private System.Windows.Forms.Button buttonLogin;
 		private System.Windows.Forms.Button buttonLogout;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TextBox textBoxAppID;
         private System.Windows.Forms.PictureBox pictureBoxProfile;
         private System.Windows.Forms.Label labelUserName;
         private System.Windows.Forms.Label labelHomeTown;
         private System.Windows.Forms.Label labelBirthday;
         private System.Windows.Forms.Label labelGender;
-        private System.Windows.Forms.Button buttonShowAlbums;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button buttonEditProfile;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label labelStudyPlace;
+        private System.Windows.Forms.Label labelWorkPlace;
+        private System.Windows.Forms.ListBox listBoxUserPosts;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel3;
     }
 }
 

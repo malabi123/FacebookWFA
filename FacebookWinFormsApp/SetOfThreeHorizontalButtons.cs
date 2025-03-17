@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BasicFacebookFeatures
 {
-    public partial class PictureListBox : UserControl
+    public partial class SetOfThreeHorizontalButtons : UserControl
     {
-        public PictureListBox()
+        public SetOfThreeHorizontalButtons()
         {
             InitializeComponent();
         }
