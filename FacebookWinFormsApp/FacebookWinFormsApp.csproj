@@ -89,11 +89,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetOfThreeHorizontalButtons.cs">
+    <Compile Include="ScrollableLeftRightPictureBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SetOfThreeHorizontalButtons.Designer.cs">
-      <DependentUpon>SetOfThreeHorizontalButtons.cs</DependentUpon>
+    <Compile Include="ScrollableLeftRightPictureBox.Designer.cs">
+      <DependentUpon>ScrollableLeftRightPictureBox.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -108,8 +108,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SetOfThreeHorizontalButtons.resx">
-      <DependentUpon>SetOfThreeHorizontalButtons.cs</DependentUpon>
+    <EmbeddedResource Include="ScrollableLeftRightPictureBox.resx">
+      <DependentUpon>ScrollableLeftRightPictureBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -131,6 +131,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\facebookLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rightArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\No_image_available.svg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
