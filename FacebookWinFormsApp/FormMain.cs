@@ -61,7 +61,7 @@ namespace BasicFacebookFeatures
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
                 m_AccessToken = m_LoginResult.AccessToken;
-                showLoggedInUser();
+                showLoggedInUser();             
             }
         }
 
@@ -123,6 +123,8 @@ namespace BasicFacebookFeatures
                 MessageBox.Show($"You haven't posted anthing yet{Environment.NewLine}Click here to create a new post");
                 //button
             }
+
+            
         }
     }
 }
