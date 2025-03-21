@@ -33,6 +33,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.listBoxUserPosts = new System.Windows.Forms.ListBox();
             this.labelUserName = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -43,16 +44,14 @@
             this.labelWorkPlace = new System.Windows.Forms.Label();
             this.labelBirthday = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.scrollableLeftRightPictureBoxPosts = new ScrollableLeftRightPictureBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -110,11 +109,19 @@
             this.panel3.Controls.Add(this.listBoxUserPosts);
             this.panel3.Controls.Add(this.labelUserName);
             this.panel3.Controls.Add(this.panel2);
-            this.panel3.Controls.Add(this.scrollableLeftRightPictureBoxPosts);
             this.panel3.Location = new System.Drawing.Point(3, 217);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1075, 397);
             this.panel3.TabIndex = 65;
+            // 
+            // pictureBoxProfile
+            // 
+            this.pictureBoxProfile.Location = new System.Drawing.Point(3, 133);
+            this.pictureBoxProfile.Name = "pictureBoxProfile";
+            this.pictureBoxProfile.Size = new System.Drawing.Size(350, 290);
+            this.pictureBoxProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxProfile.TabIndex = 55;
+            this.pictureBoxProfile.TabStop = false;
             // 
             // listBoxUserPosts
             // 
@@ -122,7 +129,7 @@
             this.listBoxUserPosts.ItemHeight = 22;
             this.listBoxUserPosts.Location = new System.Drawing.Point(674, 173);
             this.listBoxUserPosts.Name = "listBoxUserPosts";
-            this.listBoxUserPosts.Size = new System.Drawing.Size(329, 224);
+            this.listBoxUserPosts.Size = new System.Drawing.Size(375, 224);
             this.listBoxUserPosts.TabIndex = 69;
             // 
             // labelUserName
@@ -217,25 +224,6 @@
             this.panel1.Size = new System.Drawing.Size(1081, 160);
             this.panel1.TabIndex = 63;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 31);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1081, 617);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // pictureBoxProfile
-            // 
-            this.pictureBoxProfile.Location = new System.Drawing.Point(3, 133);
-            this.pictureBoxProfile.Name = "pictureBoxProfile";
-            this.pictureBoxProfile.Size = new System.Drawing.Size(350, 290);
-            this.pictureBoxProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxProfile.TabIndex = 55;
-            this.pictureBoxProfile.TabStop = false;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::BasicFacebookFeatures.Properties.Resources.facebookLogo;
@@ -245,13 +233,16 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 64;
             this.pictureBox1.TabStop = false;
-            //
-            // ScrollableLeftRightPictureBox
-            //
-            this.scrollableLeftRightPictureBoxPosts.Name = "scrollableLeftRightPictureBoxPosts";
-            this.scrollableLeftRightPictureBoxPosts.Height = panel3.Height + 10;
-            this.scrollableLeftRightPictureBoxPosts.Left = listBoxUserPosts.Left + 10;
-            this.scrollableLeftRightPictureBoxPosts.Size = new System.Drawing.Size(400, 400);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 31);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1081, 617);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -268,17 +259,16 @@
             this.tabPage1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
 		#endregion
-
 		private System.Windows.Forms.Button buttonLogin;
 		private System.Windows.Forms.Button buttonLogout;
 		private System.Windows.Forms.TabControl tabControl1;
@@ -297,7 +287,6 @@
         private System.Windows.Forms.Label labelWorkPlace;
         private System.Windows.Forms.ListBox listBoxUserPosts;
         private System.Windows.Forms.Panel panel3;
-        private ScrollableLeftRightPictureBox scrollableLeftRightPictureBoxPosts;
     }
 }
 
