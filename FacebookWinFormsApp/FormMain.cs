@@ -13,18 +13,30 @@ namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
+        ChangingPictureBox m_ChangingPictureBoxPosts;
+        FacebookWrapper.LoginResult m_LoginResult;
+        FacebookWrapper.ObjectModel.User m_LoggedInUser;
+        string m_AccessToken = "EAAQpHAqlOz0BO8cFFEy8TySDf2PrF70oh2RBUGb5da2AkIxVV9Kz4ZA98lip4jBqtyu1cGYDujHPugjtX0YHeCZABuWU53CVIPhZBrSnkjP6xCB6oPLx4ObBFNSt4AxqP69tj6sWnZCudzrW2jKNsZCK3hyXQL6Ph0KPDmaLsvtFZCX9ZB8y6FATxEMOAZDZD";
+
         public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
             tabControl1.TabPages.Remove(tabPage2);
             panel3.Visible = false;
+            initializeUserControlChangingPictureBoxPosts();
         }
 
-        FacebookWrapper.LoginResult m_LoginResult;
-        FacebookWrapper.ObjectModel.User m_LoggedInUser;
-        string m_AccessToken = "EAAQpHAqlOz0BO8cFFEy8TySDf2PrF70oh2RBUGb5da2AkIxVV9Kz4ZA98lip4jBqtyu1cGYDujHPugjtX0YHeCZABuWU53CVIPhZBrSnkjP6xCB6oPLx4ObBFNSt4AxqP69tj6sWnZCudzrW2jKNsZCK3hyXQL6Ph0KPDmaLsvtFZCX9ZB8y6FATxEMOAZDZD";
+        private void initializeUserControlChangingPictureBoxPosts()
+        {
+            m_ChangingPictureBoxPosts = new ChangingPictureBox();
+            panel3.Controls.Add(m_ChangingPictureBoxPosts);
+            tabPage1.Controls.Add(m_ChangingPictureBoxPosts);
 
+            m_ChangingPictureBoxPosts.Location = listBoxUserPosts.Location;
+            m_ChangingPictureBoxPosts.Height = listBoxUserPosts.Height - 10;
+            m_ChangingPictureBoxPosts.Visible = false;
+        }
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
@@ -100,6 +112,8 @@ namespace BasicFacebookFeatures
             labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
 
             panel3.Visible = true;
+            m_ChangingPictureBoxPosts.Visible = true;
+            m_ChangingPictureBoxPosts.BringToFront();
             buttonLogin.BackColor = Color.LightGreen;
             buttonLogin.Enabled = false;
             buttonLogout.Enabled = true;
