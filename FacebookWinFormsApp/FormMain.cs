@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
+using System.Windows.Forms.VisualStyles;
 
 namespace BasicFacebookFeatures
 {
@@ -29,13 +30,13 @@ namespace BasicFacebookFeatures
 
         private void initializeUserControlChangingPictureBoxPosts()
         {
-            m_ChangingPictureBoxPosts = new ChangingPictureBox();
+            /*m_ChangingPictureBoxPosts = new ChangingPictureBox();
             panel3.Controls.Add(m_ChangingPictureBoxPosts);
             tabPage1.Controls.Add(m_ChangingPictureBoxPosts);
 
             m_ChangingPictureBoxPosts.Location = listBoxUserPosts.Location;
             m_ChangingPictureBoxPosts.Height = listBoxUserPosts.Height - 10;
-            m_ChangingPictureBoxPosts.Visible = false;
+            m_ChangingPictureBoxPosts.Visible = false;*/
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -112,8 +113,8 @@ namespace BasicFacebookFeatures
             labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
 
             panel3.Visible = true;
-            m_ChangingPictureBoxPosts.Visible = true;
-            m_ChangingPictureBoxPosts.BringToFront();
+            //m_ChangingPictureBoxPosts.Visible = true;
+            //m_ChangingPictureBoxPosts.BringToFront();
             buttonLogin.BackColor = Color.LightGreen;
             buttonLogin.Enabled = false;
             buttonLogout.Enabled = true;
@@ -139,6 +140,30 @@ namespace BasicFacebookFeatures
             }
 
             
+        }
+
+        private void listBoxUserPosts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Post post =listBoxUserPosts.SelectedItem as Post;
+            
+            
+            if (post != null)
+            {
+                this.changingPictureBox1.SetOnePicture(post.PictureURL);
+            }
+        }
+
+        private void buttonPostStatus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Status postedStatus = m_LoggedInUser.PostStatus(textBoxNewPost.Text);
+                MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

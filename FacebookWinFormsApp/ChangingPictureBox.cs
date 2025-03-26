@@ -14,6 +14,7 @@ namespace BasicFacebookFeatures
     {
         private List<String> m_UrlsList = null;
         private int m_CurrentUrlIndex = 0;
+        private string m_lonelyPictureUrl = null;
 
         public ChangingPictureBox()
         {
@@ -24,7 +25,7 @@ namespace BasicFacebookFeatures
         public void SetUrlsList(List<String> i_UrlsList)
         {
             m_UrlsList = i_UrlsList;
-
+            m_lonelyPictureUrl = null;
             if (m_UrlsList.Count >= 2)
             {
                 buttonLeft.Visible = true;
@@ -43,26 +44,33 @@ namespace BasicFacebookFeatures
         private void buttonRight_Click(object sender, EventArgs e)
         {
             m_CurrentUrlIndex = (m_CurrentUrlIndex + 1) % m_UrlsList.Count;
-            updatePicture();
+            updatePicture(m_UrlsList[m_CurrentUrlIndex]);
         }
 
         private void buttonLeft_Click(object sender, EventArgs e)
         {
             m_CurrentUrlIndex = (m_CurrentUrlIndex - 1) % m_UrlsList.Count;
-            updatePicture();
+            updatePicture(m_UrlsList[m_CurrentUrlIndex]);
 
         }
 
-        private void updatePicture()
+        private void updatePicture(string i_pictureUrl)
         {
-            try
-            {
-                pictureBox1.ImageLocation = m_UrlsList[m_CurrentUrlIndex];
-            }
-            catch (Exception ex)
+            pictureBox1.ImageLocation = i_pictureUrl;
+
+            if (pictureBox1.Image == null)
             {
                 pictureBox1.Image = Properties.Resources.No_image_available_svg;
             }
+        }
+
+        public void SetOnePicture(string i_pictureUrl)
+        {
+            m_lonelyPictureUrl = i_pictureUrl;
+            m_UrlsList = null;
+            updatePicture(m_lonelyPictureUrl);
+            buttonLeft.Visible = false;
+            buttonRight.Visible = false;
         }
 
         public void Clear()
@@ -72,15 +80,24 @@ namespace BasicFacebookFeatures
             pictureBox1.Image = Properties.Resources.No_image_available_svg;
         }
 
-        /*public void ChangeSize(int i_Size)
+        protected override void OnResize(EventArgs e)
         {
-            this.buttonLeft.Size = new Size(i_Size, i_Size);
-            this.buttonRight.Size = new Size(i_Size, i_Size);
-            this.pictureBoxCurrentUrl.Size = new Size(5 * i_Size, 5 * i_Size);
+            base.OnResize(e);
 
-            this.pictureBoxCurrentUrl.Left = this.buttonLeft.Right + 10;
-            this.buttonRight.Left = this.pictureBoxCurrentUrl.Right + 10;
+            if (this.DesignMode) // Check if running in Designer
+            {
+                int width = this.Width - 12;
+                int height = this.Height;
+                buttonLeft.Width = width / 4;
+                buttonLeft.Height = height / 3;
+                buttonRight.Width = width / 4;
+                buttonRight.Height = height / 3;
+                pictureBox1.Width = width / 2;
+                pictureBox1.Height = height;
+                pictureBox1.Left = buttonLeft.Right + 6;
+                buttonRight.Left = pictureBox1.Right + 6;
 
-        }*/
+            }
+        }
     }
 }
