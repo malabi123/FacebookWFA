@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
+using System.IO;
 using System.Windows.Forms.VisualStyles;
 
 namespace BasicFacebookFeatures
@@ -15,9 +16,10 @@ namespace BasicFacebookFeatures
     public partial class FormMain : Form
     {
         ChangingPictureBox m_ChangingPictureBoxPosts;
+        ChangingPictureBox m_ChangingPictureBoxFriends;
         FacebookWrapper.LoginResult m_LoginResult;
         FacebookWrapper.ObjectModel.User m_LoggedInUser;
-        string m_AccessToken = "EAAQpHAqlOz0BO8cFFEy8TySDf2PrF70oh2RBUGb5da2AkIxVV9Kz4ZA98lip4jBqtyu1cGYDujHPugjtX0YHeCZABuWU53CVIPhZBrSnkjP6xCB6oPLx4ObBFNSt4AxqP69tj6sWnZCudzrW2jKNsZCK3hyXQL6Ph0KPDmaLsvtFZCX9ZB8y6FATxEMOAZDZD";
+        string m_AccessToken = "EAAQpHAqlOz0BO9wNvZB8rtBQeaj7iyCFkmt92ZAv33LB9um3rDkIi5zObRm0661VDwTkVZCdQ9DKJKqLDZCZAvZCGv955UNu66DdDUP0hYtH6wK3E5IQXQX77wi1c7oyBddTQWpU8c9QJCwHG39JqOC5x3mf4kTcC0yr2cVJElqH2kqXzCw7qWTnWeHwZDZD";
 
         public FormMain()
         {
@@ -26,17 +28,30 @@ namespace BasicFacebookFeatures
             tabControl1.TabPages.Remove(tabPage2);
             panel3.Visible = false;
             initializeUserControlChangingPictureBoxPosts();
+            initializeUserControlChangingPictureBoxFriends();
+            tabPage1.Text = "Profile";
+            tabPage2.Text = "Social";
+        }
+
+        private void initializeUserControlChangingPictureBoxFriends()
+        {
+            m_ChangingPictureBoxFriends = new ChangingPictureBox();
+            tabPage2.Controls.Add(m_ChangingPictureBoxFriends);
+
+            Point newLocation = new Point(listBoxUserFriends.Location.X, listBoxUserFriends.Location.Y - 270);
+            m_ChangingPictureBoxFriends.Location = newLocation;
+            m_ChangingPictureBoxFriends.Height = listBoxUserFriends.Height;
         }
 
         private void initializeUserControlChangingPictureBoxPosts()
         {
-            /*m_ChangingPictureBoxPosts = new ChangingPictureBox();
+            m_ChangingPictureBoxPosts = new ChangingPictureBox();
             panel3.Controls.Add(m_ChangingPictureBoxPosts);
             tabPage1.Controls.Add(m_ChangingPictureBoxPosts);
 
             m_ChangingPictureBoxPosts.Location = listBoxUserPosts.Location;
             m_ChangingPictureBoxPosts.Height = listBoxUserPosts.Height - 10;
-            m_ChangingPictureBoxPosts.Visible = false;*/
+            m_ChangingPictureBoxPosts.Visible = false;
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -63,18 +78,18 @@ namespace BasicFacebookFeatures
                 "user_location",
                 "user_photos",
                 "user_posts",
-                "user_videos"
+                "user_videos",
+                "user_likes"
 
                 //user_link
-                //user_likes
-                
+
                 );*/
 
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
                 m_AccessToken = m_LoginResult.AccessToken;
-                showLoggedInUser();             
+                showLoggedInUser();   
             }
         }
 
@@ -113,15 +128,53 @@ namespace BasicFacebookFeatures
             labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
 
             panel3.Visible = true;
-            //m_ChangingPictureBoxPosts.Visible = true;
-            //m_ChangingPictureBoxPosts.BringToFront();
+            m_ChangingPictureBoxPosts.Visible = true;
+            m_ChangingPictureBoxPosts.BringToFront();
             buttonLogin.BackColor = Color.LightGreen;
             buttonLogin.Enabled = false;
             buttonLogout.Enabled = true;
+            buttonLogout.Visible = true;
             tabControl1.TabPages.Add(tabPage2);
             buttonLogin.Left = buttonLogout.Left;
 
             showUserPosts();
+            showUserFriends();
+            showUserLikedPages();
+        }
+
+        private void showUserLikedPages()
+        {
+            ListBoxLikedPages.Items.Clear();
+            ListBoxLikedPages.DisplayMember = "Name";
+
+            foreach(Page page in m_LoggedInUser.LikedPages)
+            {
+                ListBoxLikedPages.Items.Add(page);
+            }
+            if (listBoxUserPosts.Items.Count == 0)
+            {
+                MessageBox.Show("You haven't liked any pages yet");
+            }
+        }
+
+        private void showUserFriends()
+        {
+            listBoxUserFriends.Items.Clear();
+            listBoxUserFriends.DisplayMember = "Name";
+
+            /*foreach (User friend in m_LoggedInUser.Friends)
+            {
+                listBoxUserFriends.Items.Add(friend);
+            }
+            if (listBoxUserPosts.Items.Count == 0)
+            {
+                MessageBox.Show("You don't have any friends");
+            }*/
+
+            foreach (string friendName in File.ReadLines("C:\\Users\\pavel\\Source\\Repos\\FacebookWFA\\FacebookWinFormsApp\\Resources\\AllFriends.txt"))
+            {
+                listBoxUserFriends.Items.Add(friendName);
+            }
         }
 
         private void showUserPosts()
@@ -137,19 +190,16 @@ namespace BasicFacebookFeatures
             {
                 MessageBox.Show($"You haven't posted anthing yet{Environment.NewLine}Click here to create a new post");
                 //button
-            }
-
-            
+            }  
         }
 
         private void listBoxUserPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Post post =listBoxUserPosts.SelectedItem as Post;
-            
+            Post post = listBoxUserPosts.SelectedItem as Post;
             
             if (post != null)
             {
-                this.changingPictureBox1.SetOnePicture(post.PictureURL);
+                this.m_ChangingPictureBoxPosts.SetOnePicture(post.PictureURL);
             }
         }
 
@@ -163,6 +213,16 @@ namespace BasicFacebookFeatures
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void ListBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Page page= ListBoxLikedPages.SelectedItem as Page;
+
+            if (page != null)
+            {
+                pictureBoxLikedPages.ImageLocation = page.PictureURL;
             }
         }
     }

@@ -141,5 +141,8 @@
   <ItemGroup>
     <None Include="Resources\No_image_available.svg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AllFriends.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
