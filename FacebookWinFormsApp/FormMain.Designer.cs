@@ -71,6 +71,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.tabPagePlay = new System.Windows.Forms.TabPage();
             this.panelGame = new System.Windows.Forms.Panel();
+            this.labelScore = new System.Windows.Forms.Label();
             this.buttonEnd = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.dateTimePickerAnswerBirthday = new System.Windows.Forms.DateTimePicker();
@@ -104,7 +105,6 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.labelScore = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageProfile.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -377,12 +377,13 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(314, 233);
+            this.button4.Location = new System.Drawing.Point(314, 258);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(186, 122);
             this.button4.TabIndex = 79;
             this.button4.Text = "How well do you know your friends?\r\n\r\n-click to play-\r\n";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // listBoxEvents
             // 
@@ -571,7 +572,6 @@
             // tabPagePlay
             // 
             this.tabPagePlay.Controls.Add(this.panelGame);
-            this.tabPagePlay.Controls.Add(this.label10);
             this.tabPagePlay.Controls.Add(this.panelGameSettings);
             this.tabPagePlay.Controls.Add(this.panel7);
             this.tabPagePlay.Location = new System.Drawing.Point(4, 31);
@@ -580,10 +580,13 @@
             this.tabPagePlay.TabIndex = 4;
             this.tabPagePlay.Text = "Play";
             this.tabPagePlay.UseVisualStyleBackColor = true;
+            this.tabPagePlay.Leave += new System.EventHandler(this.tabPagePlay_Leave);
             // 
             // panelGame
             // 
+            this.panelGame.BackColor = System.Drawing.Color.Transparent;
             this.panelGame.Controls.Add(this.labelScore);
+            this.panelGame.Controls.Add(this.label10);
             this.panelGame.Controls.Add(this.buttonEnd);
             this.panelGame.Controls.Add(this.buttonNext);
             this.panelGame.Controls.Add(this.dateTimePickerAnswerBirthday);
@@ -594,15 +597,24 @@
             this.panelGame.Controls.Add(this.textBoxAnswerHometown);
             this.panelGame.Controls.Add(this.textBoxAnswerName);
             this.panelGame.Controls.Add(this.pictureBoxGame);
-            this.panelGame.Location = new System.Drawing.Point(268, 251);
+            this.panelGame.Location = new System.Drawing.Point(268, 183);
             this.panelGame.Name = "panelGame";
-            this.panelGame.Size = new System.Drawing.Size(805, 429);
+            this.panelGame.Size = new System.Drawing.Size(805, 497);
             this.panelGame.TabIndex = 70;
             this.panelGame.Visible = false;
             // 
+            // labelScore
+            // 
+            this.labelScore.AutoSize = true;
+            this.labelScore.Location = new System.Drawing.Point(257, 307);
+            this.labelScore.Name = "labelScore";
+            this.labelScore.Size = new System.Drawing.Size(65, 24);
+            this.labelScore.TabIndex = 11;
+            this.labelScore.Text = "Score:";
+            // 
             // buttonEnd
             // 
-            this.buttonEnd.Location = new System.Drawing.Point(617, 218);
+            this.buttonEnd.Location = new System.Drawing.Point(615, 299);
             this.buttonEnd.Name = "buttonEnd";
             this.buttonEnd.Size = new System.Drawing.Size(151, 38);
             this.buttonEnd.TabIndex = 10;
@@ -612,7 +624,7 @@
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(505, 218);
+            this.buttonNext.Location = new System.Drawing.Point(503, 299);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(106, 38);
             this.buttonNext.TabIndex = 9;
@@ -622,7 +634,7 @@
             // 
             // dateTimePickerAnswerBirthday
             // 
-            this.dateTimePickerAnswerBirthday.Location = new System.Drawing.Point(473, 100);
+            this.dateTimePickerAnswerBirthday.Location = new System.Drawing.Point(471, 181);
             this.dateTimePickerAnswerBirthday.Name = "dateTimePickerAnswerBirthday";
             this.dateTimePickerAnswerBirthday.Size = new System.Drawing.Size(295, 28);
             this.dateTimePickerAnswerBirthday.TabIndex = 8;
@@ -630,7 +642,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(273, 100);
+            this.label16.Location = new System.Drawing.Point(271, 181);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(191, 24);
             this.label16.TabIndex = 7;
@@ -639,7 +651,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(273, 158);
+            this.label15.Location = new System.Drawing.Point(271, 239);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(146, 24);
             this.label15.TabIndex = 6;
@@ -648,7 +660,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(273, 47);
+            this.label14.Location = new System.Drawing.Point(271, 128);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(162, 24);
             this.label14.TabIndex = 5;
@@ -657,22 +669,22 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(23, 261);
+            this.label13.Location = new System.Drawing.Point(21, 342);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(211, 24);
             this.label13.TabIndex = 4;
-            this.label13.Text = "Do you know who I am?";
+            this.label13.Text = "Do you really know me?";
             // 
             // textBoxAnswerHometown
             // 
-            this.textBoxAnswerHometown.Location = new System.Drawing.Point(473, 158);
+            this.textBoxAnswerHometown.Location = new System.Drawing.Point(471, 239);
             this.textBoxAnswerHometown.Name = "textBoxAnswerHometown";
             this.textBoxAnswerHometown.Size = new System.Drawing.Size(295, 28);
             this.textBoxAnswerHometown.TabIndex = 3;
             // 
             // textBoxAnswerName
             // 
-            this.textBoxAnswerName.Location = new System.Drawing.Point(473, 44);
+            this.textBoxAnswerName.Location = new System.Drawing.Point(471, 125);
             this.textBoxAnswerName.Name = "textBoxAnswerName";
             this.textBoxAnswerName.Size = new System.Drawing.Size(295, 28);
             this.textBoxAnswerName.TabIndex = 1;
@@ -680,7 +692,7 @@
             // pictureBoxGame
             // 
             this.pictureBoxGame.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxGame.Location = new System.Drawing.Point(18, 21);
+            this.pictureBoxGame.Location = new System.Drawing.Point(16, 102);
             this.pictureBoxGame.Name = "pictureBoxGame";
             this.pictureBoxGame.Size = new System.Drawing.Size(234, 235);
             this.pictureBoxGame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -690,7 +702,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(340, 183);
+            this.label10.Location = new System.Drawing.Point(12, 17);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(313, 48);
             this.label10.TabIndex = 69;
@@ -698,6 +710,7 @@
             // 
             // panelGameSettings
             // 
+            this.panelGameSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.panelGameSettings.Controls.Add(this.label12);
             this.panelGameSettings.Controls.Add(this.textBoxPlayNumberOfFriends);
             this.panelGameSettings.Controls.Add(this.checkBoxPlayEnableHometown);
@@ -919,15 +932,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Visible = false;
             // 
-            // labelScore
-            // 
-            this.labelScore.AutoSize = true;
-            this.labelScore.Location = new System.Drawing.Point(259, 226);
-            this.labelScore.Name = "labelScore";
-            this.labelScore.Size = new System.Drawing.Size(65, 24);
-            this.labelScore.TabIndex = 11;
-            this.labelScore.Text = "Score:";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
@@ -959,7 +963,6 @@
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.tabPagePlay.ResumeLayout(false);
-            this.tabPagePlay.PerformLayout();
             this.panelGame.ResumeLayout(false);
             this.panelGame.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGame)).EndInit();

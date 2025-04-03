@@ -25,13 +25,19 @@ namespace BasicFacebookFeatures
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
-            tabControl1.TabPages.Remove(tabPageSocial);
-            tabControl1.TabPages.Remove(tabPageSettings);
-            tabControl1.TabPages.Remove(tabPageFeed);
-            panel3.Visible = false;
+            removeTabPages();
             initializeUserControlChangingPictureBoxPosts();
             tabPageProfile.Text = "Profile";
             tabPageSocial.Text = "Social";
+        }
+
+        private void removeTabPages()
+        {
+            tabControl1.TabPages.Remove(tabPageSocial);
+            tabControl1.TabPages.Remove(tabPageSettings);
+            tabControl1.TabPages.Remove(tabPageFeed);
+            tabControl1.TabPages.Remove(tabPagePlay);
+            panel3.Visible = false;
         }
 
         private void initializeUserControlChangingPictureBoxPosts()
@@ -80,9 +86,20 @@ namespace BasicFacebookFeatures
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
-                m_AccessToken = m_LoginResult.AccessToken;
-                showLoggedInUser();   
+                //m_AccessToken = m_LoginResult.AccessToken;
+                loadAppFeatures();
             }
+        }
+
+        private void loadAppFeatures()
+        {
+            showLoggedInUser();
+            addTabPages();
+            showUserPosts();
+            showUserFriends();
+            showUserLikedPages();
+            showOnlineFriends();
+            setChangeSettings();
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -109,8 +126,7 @@ namespace BasicFacebookFeatures
         } 
 
         private void showLoggedInUser()
-        {
-            buttonLogin.Text = $"Logged in as {m_LoggedInUser.Name}";
+        {           
             pictureBoxProfile.ImageLocation = m_LoggedInUser.PictureLargeURL;
             labelBirthday.Text = m_LoggedInUser.Birthday;
             labelHomeTown.Text = m_LoggedInUser.Location.Name;
@@ -122,20 +138,23 @@ namespace BasicFacebookFeatures
             panel3.Visible = true;
             m_ChangingPictureBoxPosts.Visible = true;
             m_ChangingPictureBoxPosts.BringToFront();
+
+            /*buttonLogin.Text = $"Logged in as {m_LoggedInUser.Name}";
             buttonLogin.BackColor = Color.LightGreen;
             buttonLogin.Enabled = false;
-            buttonLogout.Enabled = true;
-            buttonLogout.Visible = true;
-            tabControl1.TabPages.Add(tabPageSocial);
-            tabControl1.TabPages.Add(tabPageSettings);
-            tabControl1.TabPages.Add(tabPageFeed);
-            buttonLogin.Left = buttonLogout.Left;
+            buttonLogin.Left = buttonLogout.Left;*/
+            buttonLogin.Visible = false;
 
-            showUserPosts();
-            showUserFriends();
-            showUserLikedPages();
-            showOnlineFriends();
-            setChangeSettings(); 
+            buttonLogout.Enabled = true;
+            buttonLogout.Visible = true;           
+        }
+
+        private void addTabPages()
+        {
+            tabControl1.TabPages.Add(tabPageSocial);
+            tabControl1.TabPages.Add(tabPageFeed);
+            tabControl1.TabPages.Add(tabPagePlay);
+            tabControl1.TabPages.Add(tabPageSettings);
         }
 
         private void setChangeSettings()
@@ -252,7 +271,7 @@ namespace BasicFacebookFeatures
 
                 foreach(object item in listBoxOnlineFriends.Items)
                 {
-                    if(friend == item)
+                    if (friend == item) 
                     {
                         listBoxOnlineFriends.SelectedItem = item;
                         break;
@@ -292,39 +311,63 @@ namespace BasicFacebookFeatures
 
         private void buttonStartGame_Click(object sender, EventArgs e)
         {
-            if(m_Game==null || m_Game.IsGameFinished)
+            if (m_Game == null || m_Game.IsGameFinished)
             {
                 m_Game = new FriendsFacebookGame(FakeFriendsGenerator.sr_FakeFriends);
             }
+            
+            if (tryStartGame())
+            {
+                loadGameUI();
+                updateNextFriend();
+                updateScore();
+            }
+
+        }
+
+        private void loadGameUI()
+        {
+            textBoxAnswerName.Enabled = m_Game.IsNameEnabled;
+            textBoxAnswerHometown.Enabled = m_Game.IsHometownEnabled;
+            dateTimePickerAnswerBirthday.Enabled = m_Game.IsBirthdayEnabled;
+            panelGameSettings.Enabled = false;
+            panelGame.Visible = true;
+            panelGame.Enabled = true;
+            buttonNext.Visible = true;
+            buttonEnd.Text = "End Game";
+        }
+
+        private bool tryStartGame()
+        {
+            bool isGameStarted;
+
+            try
+            {
+                setGameSettings();
+                m_Game.StartGame();
+                isGameStarted = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                isGameStarted = false;
+            }
+
+            return isGameStarted;
+        }
+
+        private void setGameSettings()
+        {
             m_Game.IsNameEnabled = checkBoxPlayEnableName.Checked;
             m_Game.IsBirthdayEnabled = checkBoxPlayEnableBirthday.Checked;
             m_Game.IsHometownEnabled = checkBoxPlayEnableHometown.Checked;
-            try
-            {
-                m_Game.NumberOfRounds = int.Parse(textBoxPlayNumberOfFriends.Text);
-                m_Game.StartGame();
-
-                textBoxAnswerName.Enabled = m_Game.IsNameEnabled;
-                textBoxAnswerHometown.Enabled = m_Game.IsHometownEnabled;
-                dateTimePickerAnswerBirthday.Enabled = m_Game.IsBirthdayEnabled;
-
-                panelGameSettings.Enabled = false;
-                panelGame.Visible = true;
-                buttonNext.Visible = true;
-
-                updateNextFriend();
-
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);              
-            }            
+            m_Game.NumberOfRounds = int.Parse(textBoxPlayNumberOfFriends.Text);
         }
 
         private void updateNextFriend()
         {
             pictureBoxGame.Image = m_Game.GetCurrentFriendImage();
-            if(!m_Game.IsNameEnabled)
+            if (!m_Game.IsNameEnabled)
             {
                 textBoxAnswerName.Text = m_Game.GetCurrentFriendFullName();
             }
@@ -340,7 +383,7 @@ namespace BasicFacebookFeatures
             {
                 dateTimePickerAnswerBirthday.Value = DateTime.Today;
             }
-            if(!m_Game.IsHometownEnabled)
+            if (!m_Game.IsHometownEnabled)
             {
                 textBoxAnswerHometown.Text = m_Game.GetCurrentFriendHometown();
             }
@@ -348,6 +391,10 @@ namespace BasicFacebookFeatures
             {
                 textBoxAnswerHometown.Text = string.Empty;
             }
+        }
+
+        private void updateScore()
+        {
             labelScore.Text = $"Score: {m_Game.Score} / {m_Game.MaxScoreUntilNow}";
         }
 
@@ -356,6 +403,7 @@ namespace BasicFacebookFeatures
             setAnswers();
             m_Game.Next();
             updateNextFriend();
+            updateScore();
             if (m_Game.CurrentRound == m_Game.NumberOfRounds) 
             {
                 buttonNext.Visible = false;
@@ -384,9 +432,29 @@ namespace BasicFacebookFeatures
         {
             setAnswers();
             m_Game.Next();
-            if (m_Game.CurrentRound == m_Game.NumberOfRounds)
+            finishGame();
+        }
+
+        private void finishGame()
+        {
+            updateScore();
+            m_Game = null;
+            panelGame.Enabled = false;
+            buttonNext.Visible = false;
+            panelGameSettings.Enabled = true;
+            buttonEnd.Text = "Game Ended";
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPagePlay;
+        }
+
+        private void tabPagePlay_Leave(object sender, EventArgs e)
+        {
+            if (m_Game != null)
             {
-                buttonNext.Visible = false;
+                finishGame();
             }
         }
     }
