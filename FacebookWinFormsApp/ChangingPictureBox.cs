@@ -14,7 +14,6 @@ namespace BasicFacebookFeatures
     {
         private List<String> m_UrlsList = null;
         private int m_CurrentUrlIndex = 0;
-        private string m_lonelyPictureUrl = null;
 
         public ChangingPictureBox()
         {
@@ -25,7 +24,6 @@ namespace BasicFacebookFeatures
         public void SetUrlsList(List<String> i_UrlsList)
         {
             m_UrlsList = i_UrlsList;
-            m_lonelyPictureUrl = null;
             if (m_UrlsList.Count >= 2)
             {
                 buttonLeft.Visible = true;
@@ -44,17 +42,17 @@ namespace BasicFacebookFeatures
         private void buttonRight_Click(object sender, EventArgs e)
         {
             m_CurrentUrlIndex = (m_CurrentUrlIndex + 1) % m_UrlsList.Count;
-            updatePicture(m_UrlsList[m_CurrentUrlIndex]);
+            updatePictureURL(m_UrlsList[m_CurrentUrlIndex]);
         }
 
         private void buttonLeft_Click(object sender, EventArgs e)
         {
             m_CurrentUrlIndex = (m_CurrentUrlIndex - 1) % m_UrlsList.Count;
-            updatePicture(m_UrlsList[m_CurrentUrlIndex]);
+            updatePictureURL(m_UrlsList[m_CurrentUrlIndex]);
 
         }
 
-        private void updatePicture(string i_pictureUrl)
+        private void updatePictureURL(string i_pictureUrl)
         {
             pictureBox1.ImageLocation = i_pictureUrl;
 
@@ -64,13 +62,30 @@ namespace BasicFacebookFeatures
             }
         }
 
-        public void SetOnePicture(string i_pictureUrl)
+        public void SetOnePictureURL(string i_pictureUrl)
         {
-            m_lonelyPictureUrl = i_pictureUrl;
             m_UrlsList = null;
-            updatePicture(m_lonelyPictureUrl);
+            updatePictureURL(i_pictureUrl);
             buttonLeft.Visible = false;
             buttonRight.Visible = false;
+        }
+
+        public void SetOnePictureImage(Image i_Image)
+        {
+            m_UrlsList = null;
+            updatePictureImage(i_Image);
+            buttonLeft.Visible = false;
+            buttonRight.Visible = false;
+        }
+
+        private void updatePictureImage(Image i_Image)
+        {
+            pictureBox1.Image = i_Image;
+
+            if (pictureBox1.Image == null)
+            {
+                pictureBox1.Image = Properties.Resources.No_image_available_svg;
+            }
         }
 
         public void Clear()

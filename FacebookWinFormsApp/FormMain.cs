@@ -16,38 +16,29 @@ namespace BasicFacebookFeatures
     public partial class FormMain : Form
     {
         ChangingPictureBox m_ChangingPictureBoxPosts;
-        ChangingPictureBox m_ChangingPictureBoxFriends;
         FacebookWrapper.LoginResult m_LoginResult;
         FacebookWrapper.ObjectModel.User m_LoggedInUser;
-        string m_AccessToken = "EAAQpHAqlOz0BO9wNvZB8rtBQeaj7iyCFkmt92ZAv33LB9um3rDkIi5zObRm0661VDwTkVZCdQ9DKJKqLDZCZAvZCGv955UNu66DdDUP0hYtH6wK3E5IQXQX77wi1c7oyBddTQWpU8c9QJCwHG39JqOC5x3mf4kTcC0yr2cVJElqH2kqXzCw7qWTnWeHwZDZD";
+        string m_AccessToken = "EAAQpHAqlOz0BOwYE5WXzZBdgWZAm9YZBZCwnYlarRVZBecQMK0hvF8v51CJLZCWKZBXasvny8pQwaZAtE2zZBdeunzJHSNDUDPnQCAPcQfWFbnZCsibmmeXOLZAJoY1IRF8R9ybq7LZAIp0En1WNM1JEypev3BNVJ94rLUzk8eivnduwG40F2kZAvk1yfG8YZCDgZDZD";
+
 
         public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
-            tabControl1.TabPages.Remove(tabPage2);
+            tabControl1.TabPages.Remove(tabPageSocial);
+            tabControl1.TabPages.Remove(tabPageSettings);
+            tabControl1.TabPages.Remove(tabPageFeed);
             panel3.Visible = false;
             initializeUserControlChangingPictureBoxPosts();
-            initializeUserControlChangingPictureBoxFriends();
-            tabPage1.Text = "Profile";
-            tabPage2.Text = "Social";
-        }
-
-        private void initializeUserControlChangingPictureBoxFriends()
-        {
-            m_ChangingPictureBoxFriends = new ChangingPictureBox();
-            tabPage2.Controls.Add(m_ChangingPictureBoxFriends);
-
-            Point newLocation = new Point(listBoxUserFriends.Location.X, listBoxUserFriends.Location.Y - 270);
-            m_ChangingPictureBoxFriends.Location = newLocation;
-            m_ChangingPictureBoxFriends.Height = listBoxUserFriends.Height;
+            tabPageProfile.Text = "Profile";
+            tabPageSocial.Text = "Social";
         }
 
         private void initializeUserControlChangingPictureBoxPosts()
         {
             m_ChangingPictureBoxPosts = new ChangingPictureBox();
             panel3.Controls.Add(m_ChangingPictureBoxPosts);
-            tabPage1.Controls.Add(m_ChangingPictureBoxPosts);
+            tabPageProfile.Controls.Add(m_ChangingPictureBoxPosts);
 
             m_ChangingPictureBoxPosts.Location = listBoxUserPosts.Location;
             m_ChangingPictureBoxPosts.Height = listBoxUserPosts.Height - 10;
@@ -79,7 +70,8 @@ namespace BasicFacebookFeatures
                 "user_photos",
                 "user_posts",
                 "user_videos",
-                "user_likes"
+                "user_likes",
+                "user_events"
 
                 //user_link
 
@@ -134,12 +126,22 @@ namespace BasicFacebookFeatures
             buttonLogin.Enabled = false;
             buttonLogout.Enabled = true;
             buttonLogout.Visible = true;
-            tabControl1.TabPages.Add(tabPage2);
+            tabControl1.TabPages.Add(tabPageSocial);
+            tabControl1.TabPages.Add(tabPageSettings);
+            tabControl1.TabPages.Add(tabPageFeed);
             buttonLogin.Left = buttonLogout.Left;
 
             showUserPosts();
             showUserFriends();
             showUserLikedPages();
+            showOnlineFriends();
+            setChangeSettings(); 
+        }
+
+        private void setChangeSettings()
+        {
+            textBoxChangeUsername.Text = m_LoggedInUser.Name;
+            textBoxChangeHomeTown.Text = m_LoggedInUser.Location.Name;
         }
 
         private void showUserLikedPages()
@@ -160,7 +162,7 @@ namespace BasicFacebookFeatures
         private void showUserFriends()
         {
             listBoxUserFriends.Items.Clear();
-            listBoxUserFriends.DisplayMember = "Name";
+            listBoxUserFriends.DisplayMember = "FullName";
 
             /*foreach (User friend in m_LoggedInUser.Friends)
             {
@@ -171,9 +173,23 @@ namespace BasicFacebookFeatures
                 MessageBox.Show("You don't have any friends");
             }*/
 
-            foreach (string friendName in File.ReadLines("C:\\Users\\pavel\\Source\\Repos\\FacebookWFA\\FacebookWinFormsApp\\Resources\\AllFriends.txt"))
+            foreach (FakeFacebookFriend fakeFriend in FakeFriendsGenerator.sr_FakeFriends)
             {
-                listBoxUserFriends.Items.Add(friendName);
+                listBoxUserFriends.Items.Add(fakeFriend);
+            }
+        }
+
+        private void showOnlineFriends()
+        {
+            listBoxOnlineFriends.Items.Clear();
+            listBoxOnlineFriends.DisplayMember = "FullName";
+
+            foreach (FakeFacebookFriend fakeFriend in FakeFriendsGenerator.sr_FakeFriends)
+            {
+                if(fakeFriend.IsOnline)
+                {
+                    listBoxOnlineFriends.Items.Add(fakeFriend);
+                }
             }
         }
 
@@ -199,7 +215,7 @@ namespace BasicFacebookFeatures
             
             if (post != null)
             {
-                this.m_ChangingPictureBoxPosts.SetOnePicture(post.PictureURL);
+                this.m_ChangingPictureBoxPosts.SetOnePictureURL(post.PictureURL);
             }
         }
 
@@ -218,12 +234,65 @@ namespace BasicFacebookFeatures
 
         private void ListBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Page page= ListBoxLikedPages.SelectedItem as Page;
+            Page page = ListBoxLikedPages.SelectedItem as Page;
 
             if (page != null)
             {
                 pictureBoxLikedPages.ImageLocation = page.PictureURL;
             }
+        }
+
+        private void listBoxUserFriends_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FakeFacebookFriend friend = listBoxUserFriends.SelectedItem as FakeFacebookFriend;
+
+            if(friend != null)
+            {
+                pictureBoxFriendProfilePicture.Image = friend.ProfileImage;
+
+                foreach(object item in listBoxOnlineFriends.Items)
+                {
+                    if(friend == item)
+                    {
+                        listBoxOnlineFriends.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void buttonEditProfile_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPageSettings;
+        }
+
+        private void checkBoxFilterEventsByFriends_CheckedChanged(object sender, EventArgs e)
+        {
+            FakeFriendsGenerator.GenerateEventsForFriends(m_LoggedInUser.Events.ToList());
+
+            if (checkBoxFilterEventsByFriends.Checked)
+            {
+                FakeFacebookFriend friend = listBoxUserFriends.SelectedItem as FakeFacebookFriend;
+
+                if (friend == null)
+                {
+                    MessageBox.Show("You have to select a friend!");
+                    checkBoxFilterEventsByFriends.Checked = false;
+                }
+            }
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void buttonStartGame_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

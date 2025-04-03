@@ -87,12 +87,16 @@
     <Compile Include="ChangingPictureBox.Designer.cs">
       <DependentUpon>ChangingPictureBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="FakeFacebookFriend.cs" />
+    <Compile Include="FakeFriendsGenerator.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FriendsFacebookGame.cs" />
+    <Compile Include="eGameStatus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChangingPictureBox.resx">
@@ -142,7 +146,16 @@
     <None Include="Resources\No_image_available.svg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AllFriends.txt" />
+    <Content Include="Resources\BugsBunny1.jpeg" />
+    <Content Include="Resources\DonaldDuck1.jpeg" />
+    <Content Include="Resources\Goofey1.jpeg" />
+    <Content Include="Resources\HomerSimpson1.jpeg" />
+    <Content Include="Resources\JerryMouse1.jpeg" />
+    <Content Include="Resources\MickeyMouse1.jpg" />
+    <Content Include="Resources\Picatchu1.png" />
+    <Content Include="Resources\ScoobyDoo1.jpeg" />
+    <Content Include="Resources\SpongeBob1.jpeg" />
+    <Content Include="Resources\TomCat1.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
