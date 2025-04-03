@@ -19,7 +19,7 @@ namespace BasicFacebookFeatures
         FacebookWrapper.LoginResult m_LoginResult;
         FacebookWrapper.ObjectModel.User m_LoggedInUser;
         string m_AccessToken = "EAAQpHAqlOz0BOwYE5WXzZBdgWZAm9YZBZCwnYlarRVZBecQMK0hvF8v51CJLZCWKZBXasvny8pQwaZAtE2zZBdeunzJHSNDUDPnQCAPcQfWFbnZCsibmmeXOLZAJoY1IRF8R9ybq7LZAIp0En1WNM1JEypev3BNVJ94rLUzk8eivnduwG40F2kZAvk1yfG8YZCDgZDZD";
-
+        private FriendsFacebookGame m_Game = null;
 
         public FormMain()
         {
@@ -292,7 +292,102 @@ namespace BasicFacebookFeatures
 
         private void buttonStartGame_Click(object sender, EventArgs e)
         {
+            if(m_Game==null || m_Game.IsGameFinished)
+            {
+                m_Game = new FriendsFacebookGame(FakeFriendsGenerator.sr_FakeFriends);
+            }
+            m_Game.IsNameEnabled = checkBoxPlayEnableName.Checked;
+            m_Game.IsBirthdayEnabled = checkBoxPlayEnableBirthday.Checked;
+            m_Game.IsHometownEnabled = checkBoxPlayEnableHometown.Checked;
+            try
+            {
+                m_Game.NumberOfRounds = int.Parse(textBoxPlayNumberOfFriends.Text);
+                m_Game.StartGame();
+
+                textBoxAnswerName.Enabled = m_Game.IsNameEnabled;
+                textBoxAnswerHometown.Enabled = m_Game.IsHometownEnabled;
+                dateTimePickerAnswerBirthday.Enabled = m_Game.IsBirthdayEnabled;
+
+                panelGameSettings.Enabled = false;
+                panelGame.Visible = true;
+                buttonNext.Visible = true;
+
+                updateNextFriend();
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);              
+            }            
+        }
+
+        private void updateNextFriend()
+        {
+            pictureBoxGame.Image = m_Game.GetCurrentFriendImage();
+            if(!m_Game.IsNameEnabled)
+            {
+                textBoxAnswerName.Text = m_Game.GetCurrentFriendFullName();
+            }
+            else
+            {
+                textBoxAnswerName.Text = string.Empty;
+            }
+            if (!m_Game.IsBirthdayEnabled)
+            {
+                dateTimePickerAnswerBirthday.Value = m_Game.GetCurrentFriendBirthday();
+            }
+            else
+            {
+                dateTimePickerAnswerBirthday.Value = DateTime.Today;
+            }
+            if(!m_Game.IsHometownEnabled)
+            {
+                textBoxAnswerHometown.Text = m_Game.GetCurrentFriendHometown();
+            }
+            else
+            {
+                textBoxAnswerHometown.Text = string.Empty;
+            }
+            labelScore.Text = $"Score: {m_Game.Score} / {m_Game.MaxScoreUntilNow}";
+        }
+
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            setAnswers();
+            m_Game.Next();
+            updateNextFriend();
+            if (m_Game.CurrentRound == m_Game.NumberOfRounds) 
+            {
+                buttonNext.Visible = false;
+            }
+        }
+
+        private void setAnswers()
+        {
+            if (m_Game.IsNameEnabled)
+            {
+                m_Game.SetNameAnswer(textBoxAnswerName.Text);
+            }
+
+            if (m_Game.IsBirthdayEnabled)
+            {
+                m_Game.SetBirthdayAnswer(dateTimePickerAnswerBirthday.Value);
+            }
             
+            if (m_Game.IsHometownEnabled)
+            {
+                m_Game.SetHometownAnswer(textBoxAnswerHometown.Text);
+            }
+        }
+
+        private void buttonEnd_Click(object sender, EventArgs e)
+        {
+            setAnswers();
+            m_Game.Next();
+            if (m_Game.CurrentRound == m_Game.NumberOfRounds)
+            {
+                buttonNext.Visible = false;
+            }
         }
     }
 }
