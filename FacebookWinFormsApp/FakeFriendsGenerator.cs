@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FacebookWrapper.ObjectModel;
 
 namespace BasicFacebookFeatures
@@ -26,6 +23,7 @@ namespace BasicFacebookFeatures
         public static void GenerateEventsForFriends(List<Event> i_MyEvents)
         {
             Random random = new Random();
+
             foreach (FakeFacebookFriend friend in sr_FakeFriends)
             {
                 friend.AttendingEvents = chooseRandomEvents(i_MyEvents, random);

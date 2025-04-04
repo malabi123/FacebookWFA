@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
-using System.IO;
-using System.Windows.Forms.VisualStyles;
 
 namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
-        ChangingPictureBox m_ChangingPictureBoxPosts;
+        ChangingPictureBox m_ChangingPictureBoxUserPosts;
         FacebookWrapper.LoginResult m_LoginResult;
         FacebookWrapper.ObjectModel.User m_LoggedInUser;
         string m_AccessToken = "EAAQpHAqlOz0BOwYE5WXzZBdgWZAm9YZBZCwnYlarRVZBecQMK0hvF8v51CJLZCWKZBXasvny8pQwaZAtE2zZBdeunzJHSNDUDPnQCAPcQfWFbnZCsibmmeXOLZAJoY1IRF8R9ybq7LZAIp0En1WNM1JEypev3BNVJ94rLUzk8eivnduwG40F2kZAvk1yfG8YZCDgZDZD";
@@ -26,7 +20,6 @@ namespace BasicFacebookFeatures
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
             removeTabPages();
-            initializeUserControlChangingPictureBoxPosts();
             tabPageProfile.Text = "Profile";
             tabPageSocial.Text = "Social";
         }
@@ -40,15 +33,14 @@ namespace BasicFacebookFeatures
             panel3.Visible = false;
         }
 
-        private void initializeUserControlChangingPictureBoxPosts()
+        private void initializeUserControlChangingPictureBoxUserPosts()
         {
-            m_ChangingPictureBoxPosts = new ChangingPictureBox();
-            panel3.Controls.Add(m_ChangingPictureBoxPosts);
-            tabPageProfile.Controls.Add(m_ChangingPictureBoxPosts);
-
-            m_ChangingPictureBoxPosts.Location = listBoxUserPosts.Location;
-            m_ChangingPictureBoxPosts.Height = listBoxUserPosts.Height - 10;
-            m_ChangingPictureBoxPosts.Visible = false;
+            m_ChangingPictureBoxUserPosts = new ChangingPictureBox();
+            panel3.Controls.Add(m_ChangingPictureBoxUserPosts);
+            tabPageProfile.Controls.Add(m_ChangingPictureBoxUserPosts);
+            m_ChangingPictureBoxUserPosts.Location = listBoxUserPosts.Location;
+            m_ChangingPictureBoxUserPosts.Height = listBoxUserPosts.Height - 10;
+            m_ChangingPictureBoxUserPosts.Visible = false;
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -93,6 +85,7 @@ namespace BasicFacebookFeatures
 
         private void loadAppFeatures()
         {
+            initializeUserControlChangingPictureBoxUserPosts();
             showLoggedInUser();
             addTabPages();
             showUserPosts();
@@ -100,6 +93,7 @@ namespace BasicFacebookFeatures
             showUserLikedPages();
             showOnlineFriends();
             setChangeSettings();
+            showFeed();
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -136,8 +130,8 @@ namespace BasicFacebookFeatures
             labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
 
             panel3.Visible = true;
-            m_ChangingPictureBoxPosts.Visible = true;
-            m_ChangingPictureBoxPosts.BringToFront();
+            m_ChangingPictureBoxUserPosts.Visible = true;
+            m_ChangingPictureBoxUserPosts.BringToFront();
 
             /*buttonLogin.Text = $"Logged in as {m_LoggedInUser.Name}";
             buttonLogin.BackColor = Color.LightGreen;
@@ -224,7 +218,6 @@ namespace BasicFacebookFeatures
             if (listBoxUserPosts.Items.Count == 0)
             {
                 MessageBox.Show($"You haven't posted anthing yet{Environment.NewLine}Click here to create a new post");
-                //button
             }  
         }
 
@@ -234,7 +227,7 @@ namespace BasicFacebookFeatures
             
             if (post != null)
             {
-                this.m_ChangingPictureBoxPosts.SetOnePictureURL(post.PictureURL);
+                this.m_ChangingPictureBoxUserPosts.SetOnePictureURL(post.PictureURL);
             }
         }
 
@@ -455,6 +448,44 @@ namespace BasicFacebookFeatures
             if (m_Game != null)
             {
                 finishGame();
+            }
+        }
+
+        private void showFeed()
+        {
+            listBoxFeed.Items.Clear();
+            listBoxFeed.DisplayMember = "Name";
+
+            List<Post> feed = getFeed();
+
+            foreach (Post post in feed)
+            {
+                listBoxFeed.Items.Add(post);
+            }
+        }
+            
+        private List<Post> getFeed()
+        {
+            List<Post> latestFeed = new List<Post>();
+
+            foreach (User friend in m_LoggedInUser.Friends)
+            {
+                foreach (Post post in friend.Posts)
+                {
+                    latestFeed.Add(post);
+                }
+            }
+
+            return latestFeed;
+        }
+
+        private void listBoxFeed_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Post post = listBoxFeed.SelectedItem as Post;
+
+            if (post != null)
+            {
+                this.pictureBoxFeed.ImageLocation = post.PictureURL;
             }
         }
     }

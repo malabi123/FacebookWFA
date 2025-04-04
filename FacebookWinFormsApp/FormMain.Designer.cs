@@ -63,6 +63,8 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPageFeed = new System.Windows.Forms.TabPage();
+            this.label17 = new System.Windows.Forms.Label();
+            this.listBoxFeed = new System.Windows.Forms.ListBox();
             this.ListBoxLikedPages = new System.Windows.Forms.ListBox();
             this.pictureBoxLikedPages = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -72,6 +74,7 @@
             this.tabPagePlay = new System.Windows.Forms.TabPage();
             this.panelGame = new System.Windows.Forms.Panel();
             this.labelScore = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.buttonEnd = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.dateTimePickerAnswerBirthday = new System.Windows.Forms.DateTimePicker();
@@ -82,7 +85,6 @@
             this.textBoxAnswerHometown = new System.Windows.Forms.TextBox();
             this.textBoxAnswerName = new System.Windows.Forms.TextBox();
             this.pictureBoxGame = new System.Windows.Forms.PictureBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.panelGameSettings = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
             this.textBoxPlayNumberOfFriends = new System.Windows.Forms.TextBox();
@@ -105,6 +107,7 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.pictureBoxFeed = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPageProfile.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -129,6 +132,7 @@
             this.tabPageSettings.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFeed)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
@@ -391,7 +395,7 @@
             this.listBoxEvents.ItemHeight = 22;
             this.listBoxEvents.Location = new System.Drawing.Point(706, 241);
             this.listBoxEvents.Name = "listBoxEvents";
-            this.listBoxEvents.Size = new System.Drawing.Size(234, 202);
+            this.listBoxEvents.Size = new System.Drawing.Size(234, 224);
             this.listBoxEvents.TabIndex = 78;
             // 
             // checkBoxFilterEventsByFriends
@@ -497,6 +501,9 @@
             // 
             // tabPageFeed
             // 
+            this.tabPageFeed.Controls.Add(this.pictureBoxFeed);
+            this.tabPageFeed.Controls.Add(this.label17);
+            this.tabPageFeed.Controls.Add(this.listBoxFeed);
             this.tabPageFeed.Controls.Add(this.ListBoxLikedPages);
             this.tabPageFeed.Controls.Add(this.pictureBoxLikedPages);
             this.tabPageFeed.Controls.Add(this.label5);
@@ -507,6 +514,25 @@
             this.tabPageFeed.TabIndex = 3;
             this.tabPageFeed.Text = "Feed";
             this.tabPageFeed.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(563, 201);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(211, 24);
+            this.label17.TabIndex = 75;
+            this.label17.Text = "Your friends\' latest posts";
+            // 
+            // listBoxFeed
+            // 
+            this.listBoxFeed.FormattingEnabled = true;
+            this.listBoxFeed.ItemHeight = 22;
+            this.listBoxFeed.Location = new System.Drawing.Point(414, 505);
+            this.listBoxFeed.Name = "listBoxFeed";
+            this.listBoxFeed.Size = new System.Drawing.Size(551, 180);
+            this.listBoxFeed.TabIndex = 74;
+            this.listBoxFeed.SelectedIndexChanged += new System.EventHandler(this.listBoxFeed_SelectedIndexChanged);
             // 
             // ListBoxLikedPages
             // 
@@ -612,6 +638,15 @@
             this.labelScore.TabIndex = 11;
             this.labelScore.Text = "Score:";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(12, 17);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(313, 48);
+            this.label10.TabIndex = 69;
+            this.label10.Text = "How well do you know your friends?\r\nFill in the details about your friends\r\n";
+            // 
             // buttonEnd
             // 
             this.buttonEnd.Location = new System.Drawing.Point(615, 299);
@@ -698,15 +733,6 @@
             this.pictureBoxGame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxGame.TabIndex = 0;
             this.pictureBoxGame.TabStop = false;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 17);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(313, 48);
-            this.label10.TabIndex = 69;
-            this.label10.Text = "How well do you know your friends?\r\nFill in the details about your friends\r\n";
             // 
             // panelGameSettings
             // 
@@ -932,6 +958,16 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Visible = false;
             // 
+            // pictureBoxFeed
+            // 
+            this.pictureBoxFeed.Image = global::BasicFacebookFeatures.Properties.Resources.No_image_available_svg;
+            this.pictureBoxFeed.Location = new System.Drawing.Point(522, 279);
+            this.pictureBoxFeed.Name = "pictureBoxFeed";
+            this.pictureBoxFeed.Size = new System.Drawing.Size(310, 220);
+            this.pictureBoxFeed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxFeed.TabIndex = 76;
+            this.pictureBoxFeed.TabStop = false;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
@@ -974,6 +1010,7 @@
             this.tabPageSettings.PerformLayout();
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFeed)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1056,6 +1093,9 @@
         private System.Windows.Forms.PictureBox pictureBoxGame;
         private System.Windows.Forms.Button buttonEnd;
         private System.Windows.Forms.Label labelScore;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ListBox listBoxFeed;
+        private System.Windows.Forms.PictureBox pictureBoxFeed;
     }
 }
 

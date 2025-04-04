@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BasicFacebookFeatures
@@ -24,6 +19,7 @@ namespace BasicFacebookFeatures
         public void SetUrlsList(List<String> i_UrlsList)
         {
             m_UrlsList = i_UrlsList;
+
             if (m_UrlsList.Count >= 2)
             {
                 buttonLeft.Visible = true;
@@ -49,7 +45,6 @@ namespace BasicFacebookFeatures
         {
             m_CurrentUrlIndex = (m_CurrentUrlIndex - 1) % m_UrlsList.Count;
             updatePictureURL(m_UrlsList[m_CurrentUrlIndex]);
-
         }
 
         private void updatePictureURL(string i_pictureUrl)
@@ -95,11 +90,11 @@ namespace BasicFacebookFeatures
             pictureBox1.Image = Properties.Resources.No_image_available_svg;
         }
 
-        protected override void OnResize(EventArgs e)
+        /*protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
 
-            if (this.DesignMode) // Check if running in Designer
+            if (this.DesignMode)
             {
                 int width = this.Width - 12;
                 int height = this.Height;
@@ -113,6 +108,6 @@ namespace BasicFacebookFeatures
                 buttonRight.Left = pictureBox1.Right + 6;
 
             }
-        }
+        }*/
     }
 }
