@@ -63,6 +63,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPageFeed = new System.Windows.Forms.TabPage();
+            this.pictureBoxFeed = new System.Windows.Forms.PictureBox();
             this.label17 = new System.Windows.Forms.Label();
             this.listBoxFeed = new System.Windows.Forms.ListBox();
             this.ListBoxLikedPages = new System.Windows.Forms.ListBox();
@@ -107,7 +108,6 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.pictureBoxFeed = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPageProfile.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -120,6 +120,7 @@
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPageFeed.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikedPages)).BeginInit();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -132,18 +133,18 @@
             this.tabPageSettings.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFeed)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
             // 
+            this.buttonLogin.BackColor = System.Drawing.Color.White;
             this.buttonLogin.Location = new System.Drawing.Point(364, 167);
             this.buttonLogin.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(325, 32);
             this.buttonLogin.TabIndex = 36;
             this.buttonLogin.Text = "Login";
-            this.buttonLogin.UseVisualStyleBackColor = true;
+            this.buttonLogin.UseVisualStyleBackColor = false;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
             // buttonLogout
@@ -514,6 +515,16 @@
             this.tabPageFeed.TabIndex = 3;
             this.tabPageFeed.Text = "Feed";
             this.tabPageFeed.UseVisualStyleBackColor = true;
+            // 
+            // pictureBoxFeed
+            // 
+            this.pictureBoxFeed.Image = global::BasicFacebookFeatures.Properties.Resources.No_image_available_svg;
+            this.pictureBoxFeed.Location = new System.Drawing.Point(522, 279);
+            this.pictureBoxFeed.Name = "pictureBoxFeed";
+            this.pictureBoxFeed.Size = new System.Drawing.Size(310, 220);
+            this.pictureBoxFeed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxFeed.TabIndex = 76;
+            this.pictureBoxFeed.TabStop = false;
             // 
             // label17
             // 
@@ -958,16 +969,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Visible = false;
             // 
-            // pictureBoxFeed
-            // 
-            this.pictureBoxFeed.Image = global::BasicFacebookFeatures.Properties.Resources.No_image_available_svg;
-            this.pictureBoxFeed.Location = new System.Drawing.Point(522, 279);
-            this.pictureBoxFeed.Name = "pictureBoxFeed";
-            this.pictureBoxFeed.Size = new System.Drawing.Size(310, 220);
-            this.pictureBoxFeed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxFeed.TabIndex = 76;
-            this.pictureBoxFeed.TabStop = false;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
@@ -995,6 +996,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPageFeed.ResumeLayout(false);
             this.tabPageFeed.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikedPages)).EndInit();
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -1010,7 +1012,6 @@
             this.tabPageSettings.PerformLayout();
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFeed)).EndInit();
             this.ResumeLayout(false);
 
         }

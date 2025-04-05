@@ -26,11 +26,16 @@ namespace BasicFacebookFeatures
 
         private void removeTabPages()
         {
+            removeTabPagesForLoggedOutUser();
+            panel3.Visible = false;
+        }
+
+        private void removeTabPagesForLoggedOutUser()
+        {
             tabControl1.TabPages.Remove(tabPageSocial);
             tabControl1.TabPages.Remove(tabPageSettings);
             tabControl1.TabPages.Remove(tabPageFeed);
             tabControl1.TabPages.Remove(tabPagePlay);
-            panel3.Visible = false;
         }
 
         private void initializeUserControlChangingPictureBoxUserPosts()
@@ -104,6 +109,10 @@ namespace BasicFacebookFeatures
             m_LoginResult = null;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
+            buttonLogin.Visible = true;
+            buttonLogout.Visible = false;
+            m_ChangingPictureBoxUserPosts.Visible = false;
+            removeTabPages();
         }
 
         private static int calculateAge(DateTime i_BirthDate)
