@@ -65,19 +65,13 @@ namespace BasicFacebookFeatures
                 /// requested permissions:
                 "email",
                 "public_profile",
-                "user_hometown",
                 "user_birthday",
                 "user_friends",
                 "user_gender",
                 "user_location",
-                "user_photos",
                 "user_posts",
-                "user_videos",
                 "user_likes",
                 "user_events"
-
-                //user_link
-
                 );*/
 
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
@@ -104,8 +98,7 @@ namespace BasicFacebookFeatures
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             FacebookService.LogoutWithUI();
-            buttonLogin.Text = "Login";
-            buttonLogin.BackColor = buttonLogout.BackColor;
+            buttonLogin.Text = "Login"; 
             m_LoginResult = null;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
@@ -494,7 +487,7 @@ namespace BasicFacebookFeatures
 
             if (post != null)
             {
-                this.pictureBoxFeed.ImageLocation = post.PictureURL;
+                pictureBoxFeed.ImageLocation = post.PictureURL;
             }
         }
     }

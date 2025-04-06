@@ -61,7 +61,6 @@
             this.listBoxUserFriends = new System.Windows.Forms.ListBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabPageFeed = new System.Windows.Forms.TabPage();
             this.pictureBoxFeed = new System.Windows.Forms.PictureBox();
             this.label17 = new System.Windows.Forms.Label();
@@ -71,7 +70,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.tabPagePlay = new System.Windows.Forms.TabPage();
             this.panelGame = new System.Windows.Forms.Panel();
             this.labelScore = new System.Windows.Forms.Label();
@@ -95,7 +93,6 @@
             this.buttonStartGame = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.button5 = new System.Windows.Forms.Button();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.textBoxChangeWorksAt = new System.Windows.Forms.TextBox();
             this.textBoxChangeStudiesAt = new System.Windows.Forms.TextBox();
@@ -107,7 +104,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageProfile.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -472,7 +468,6 @@
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(84)))), ((int)(((byte)(157)))));
             this.panel4.Controls.Add(this.pictureBox2);
-            this.panel4.Controls.Add(this.button1);
             this.panel4.Location = new System.Drawing.Point(0, 3);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1081, 160);
@@ -487,18 +482,6 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 64;
             this.pictureBox2.TabStop = false;
-            // 
-            // button1
-            // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(9, 113);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(187, 34);
-            this.button1.TabIndex = 52;
-            this.button1.Text = "Logout";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
             // 
             // tabPageFeed
             // 
@@ -578,7 +561,6 @@
             // 
             this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(84)))), ((int)(((byte)(157)))));
             this.panel6.Controls.Add(this.pictureBox4);
-            this.panel6.Controls.Add(this.button3);
             this.panel6.Location = new System.Drawing.Point(0, 3);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(1081, 160);
@@ -593,18 +575,6 @@
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 64;
             this.pictureBox4.TabStop = false;
-            // 
-            // button3
-            // 
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(9, 113);
-            this.button3.Margin = new System.Windows.Forms.Padding(4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(187, 34);
-            this.button3.TabIndex = 52;
-            this.button3.Text = "Logout";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Visible = false;
             // 
             // tabPagePlay
             // 
@@ -823,7 +793,6 @@
             // 
             this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(84)))), ((int)(((byte)(157)))));
             this.panel7.Controls.Add(this.pictureBox5);
-            this.panel7.Controls.Add(this.button5);
             this.panel7.Location = new System.Drawing.Point(0, 3);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(1081, 160);
@@ -838,18 +807,6 @@
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 64;
             this.pictureBox5.TabStop = false;
-            // 
-            // button5
-            // 
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(9, 113);
-            this.button5.Margin = new System.Windows.Forms.Padding(4);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(187, 34);
-            this.button5.TabIndex = 52;
-            this.button5.Text = "Logout";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Visible = false;
             // 
             // tabPageSettings
             // 
@@ -941,7 +898,6 @@
             // 
             this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(84)))), ((int)(((byte)(157)))));
             this.panel5.Controls.Add(this.pictureBox3);
-            this.panel5.Controls.Add(this.button2);
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(1081, 160);
@@ -956,18 +912,6 @@
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 64;
             this.pictureBox3.TabStop = false;
-            // 
-            // button2
-            // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(9, 113);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(187, 34);
-            this.button2.TabIndex = 52;
-            this.button2.Text = "Logout";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
             // 
             // FormMain
             // 
@@ -1040,7 +984,6 @@
         private System.Windows.Forms.Button buttonPostStatus;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBoxUserFriends;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -1049,7 +992,6 @@
         private System.Windows.Forms.TabPage tabPageSettings;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
@@ -1061,7 +1003,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListBox listBoxEvents;
         private System.Windows.Forms.CheckBox checkBoxFilterEventsByFriends;
         private System.Windows.Forms.Label label11;
@@ -1073,7 +1014,6 @@
         private System.Windows.Forms.TabPage tabPagePlay;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Panel panelGameSettings;
         private System.Windows.Forms.CheckBox checkBoxPlayEnableBirthday;
         private System.Windows.Forms.CheckBox checkBoxPlayEnableName;
