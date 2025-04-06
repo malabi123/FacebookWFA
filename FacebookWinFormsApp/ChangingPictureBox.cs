@@ -90,7 +90,7 @@ namespace BasicFacebookFeatures
             pictureBox1.Image = Properties.Resources.No_image_available_svg;
         }
 
-        /*protected override void OnResize(EventArgs e)
+        protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
 
@@ -106,8 +106,7 @@ namespace BasicFacebookFeatures
                 pictureBox1.Height = height;
                 pictureBox1.Left = buttonLeft.Right + 6;
                 buttonRight.Left = pictureBox1.Right + 6;
-
             }
-        }*/
+        }
     }
 }

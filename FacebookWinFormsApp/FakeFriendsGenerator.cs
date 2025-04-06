@@ -35,7 +35,7 @@ namespace BasicFacebookFeatures
             List<Event> randomEvents = new List<Event>();
             int numberOfEvents = i_Random.Next(0, i_MyEvents.Count);
 
-            for(int i = 0; i < numberOfEvents; i++)
+            for (int i = 0; i < numberOfEvents; i++)
             {
                 int eventNumber = i_Random.Next(0, i_MyEvents.Count - 1);
                 randomEvents.Add(i_MyEvents[eventNumber]);

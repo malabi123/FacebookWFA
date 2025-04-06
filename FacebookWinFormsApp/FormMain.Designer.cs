@@ -62,10 +62,14 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tabPageFeed = new System.Windows.Forms.TabPage();
-            this.pictureBoxFeed = new System.Windows.Forms.PictureBox();
+            this.listBoxPostComments = new System.Windows.Forms.ListBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.listBoxPostLikes = new System.Windows.Forms.ListBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.pictureBoxPagePosts = new System.Windows.Forms.PictureBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.listBoxFeed = new System.Windows.Forms.ListBox();
-            this.ListBoxLikedPages = new System.Windows.Forms.ListBox();
+            this.listBoxPagePosts = new System.Windows.Forms.ListBox();
+            this.listBoxLikedPages = new System.Windows.Forms.ListBox();
             this.pictureBoxLikedPages = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -116,7 +120,7 @@
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPageFeed.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPagePosts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikedPages)).BeginInit();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -196,6 +200,7 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1075, 471);
             this.panel3.TabIndex = 65;
+            this.panel3.Visible = false;
             // 
             // label2
             // 
@@ -305,6 +310,7 @@
             this.labelStudyPlace.Size = new System.Drawing.Size(120, 27);
             this.labelStudyPlace.TabIndex = 66;
             this.labelStudyPlace.Text = "Studies at";
+            this.labelStudyPlace.Visible = false;
             // 
             // labelGender
             // 
@@ -325,6 +331,7 @@
             this.labelWorkPlace.Size = new System.Drawing.Size(126, 27);
             this.labelWorkPlace.TabIndex = 65;
             this.labelWorkPlace.Text = "Workplace";
+            this.labelWorkPlace.Visible = false;
             // 
             // labelBirthday
             // 
@@ -390,15 +397,15 @@
             // 
             this.listBoxEvents.FormattingEnabled = true;
             this.listBoxEvents.ItemHeight = 22;
-            this.listBoxEvents.Location = new System.Drawing.Point(706, 241);
+            this.listBoxEvents.Location = new System.Drawing.Point(647, 238);
             this.listBoxEvents.Name = "listBoxEvents";
-            this.listBoxEvents.Size = new System.Drawing.Size(234, 224);
+            this.listBoxEvents.Size = new System.Drawing.Size(357, 444);
             this.listBoxEvents.TabIndex = 78;
             // 
             // checkBoxFilterEventsByFriends
             // 
             this.checkBoxFilterEventsByFriends.AutoSize = true;
-            this.checkBoxFilterEventsByFriends.Location = new System.Drawing.Point(706, 207);
+            this.checkBoxFilterEventsByFriends.Location = new System.Drawing.Point(647, 204);
             this.checkBoxFilterEventsByFriends.Name = "checkBoxFilterEventsByFriends";
             this.checkBoxFilterEventsByFriends.Size = new System.Drawing.Size(150, 28);
             this.checkBoxFilterEventsByFriends.TabIndex = 77;
@@ -410,7 +417,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(701, 175);
+            this.label11.Location = new System.Drawing.Point(642, 172);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(85, 29);
             this.label11.TabIndex = 76;
@@ -485,10 +492,14 @@
             // 
             // tabPageFeed
             // 
-            this.tabPageFeed.Controls.Add(this.pictureBoxFeed);
+            this.tabPageFeed.Controls.Add(this.listBoxPostComments);
+            this.tabPageFeed.Controls.Add(this.label19);
+            this.tabPageFeed.Controls.Add(this.listBoxPostLikes);
+            this.tabPageFeed.Controls.Add(this.label18);
+            this.tabPageFeed.Controls.Add(this.pictureBoxPagePosts);
             this.tabPageFeed.Controls.Add(this.label17);
-            this.tabPageFeed.Controls.Add(this.listBoxFeed);
-            this.tabPageFeed.Controls.Add(this.ListBoxLikedPages);
+            this.tabPageFeed.Controls.Add(this.listBoxPagePosts);
+            this.tabPageFeed.Controls.Add(this.listBoxLikedPages);
             this.tabPageFeed.Controls.Add(this.pictureBoxLikedPages);
             this.tabPageFeed.Controls.Add(this.label5);
             this.tabPageFeed.Controls.Add(this.panel6);
@@ -499,43 +510,83 @@
             this.tabPageFeed.Text = "Feed";
             this.tabPageFeed.UseVisualStyleBackColor = true;
             // 
-            // pictureBoxFeed
+            // listBoxPostComments
             // 
-            this.pictureBoxFeed.Image = global::BasicFacebookFeatures.Properties.Resources.No_image_available_svg;
-            this.pictureBoxFeed.Location = new System.Drawing.Point(522, 279);
-            this.pictureBoxFeed.Name = "pictureBoxFeed";
-            this.pictureBoxFeed.Size = new System.Drawing.Size(310, 220);
-            this.pictureBoxFeed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxFeed.TabIndex = 76;
-            this.pictureBoxFeed.TabStop = false;
+            this.listBoxPostComments.FormattingEnabled = true;
+            this.listBoxPostComments.ItemHeight = 22;
+            this.listBoxPostComments.Location = new System.Drawing.Point(676, 500);
+            this.listBoxPostComments.Name = "listBoxPostComments";
+            this.listBoxPostComments.Size = new System.Drawing.Size(321, 180);
+            this.listBoxPostComments.TabIndex = 80;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(671, 428);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(285, 29);
+            this.label19.TabIndex = 79;
+            this.label19.Text = "Selected Post Comments";
+            // 
+            // listBoxPostLikes
+            // 
+            this.listBoxPostLikes.FormattingEnabled = true;
+            this.listBoxPostLikes.ItemHeight = 22;
+            this.listBoxPostLikes.Location = new System.Drawing.Point(676, 225);
+            this.listBoxPostLikes.Name = "listBoxPostLikes";
+            this.listBoxPostLikes.Size = new System.Drawing.Size(321, 180);
+            this.listBoxPostLikes.TabIndex = 78;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(671, 171);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(226, 29);
+            this.label18.TabIndex = 77;
+            this.label18.Text = "Selected Post Likes";
+            // 
+            // pictureBoxPagePosts
+            // 
+            this.pictureBoxPagePosts.Image = global::BasicFacebookFeatures.Properties.Resources.No_image_available_svg;
+            this.pictureBoxPagePosts.Location = new System.Drawing.Point(360, 238);
+            this.pictureBoxPagePosts.Name = "pictureBoxPagePosts";
+            this.pictureBoxPagePosts.Size = new System.Drawing.Size(219, 173);
+            this.pictureBoxPagePosts.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxPagePosts.TabIndex = 76;
+            this.pictureBoxPagePosts.TabStop = false;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(563, 201);
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(355, 171);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(211, 24);
+            this.label17.Size = new System.Drawing.Size(238, 29);
             this.label17.TabIndex = 75;
-            this.label17.Text = "Your friends\' latest posts";
+            this.label17.Text = "Selected Page Posts";
             // 
-            // listBoxFeed
+            // listBoxPagePosts
             // 
-            this.listBoxFeed.FormattingEnabled = true;
-            this.listBoxFeed.ItemHeight = 22;
-            this.listBoxFeed.Location = new System.Drawing.Point(414, 505);
-            this.listBoxFeed.Name = "listBoxFeed";
-            this.listBoxFeed.Size = new System.Drawing.Size(551, 180);
-            this.listBoxFeed.TabIndex = 74;
-            this.listBoxFeed.SelectedIndexChanged += new System.EventHandler(this.listBoxFeed_SelectedIndexChanged);
+            this.listBoxPagePosts.FormattingEnabled = true;
+            this.listBoxPagePosts.ItemHeight = 22;
+            this.listBoxPagePosts.Location = new System.Drawing.Point(360, 417);
+            this.listBoxPagePosts.Name = "listBoxPagePosts";
+            this.listBoxPagePosts.Size = new System.Drawing.Size(272, 268);
+            this.listBoxPagePosts.TabIndex = 74;
+            this.listBoxPagePosts.SelectedIndexChanged += new System.EventHandler(this.listBoxPagePosts_SelectedIndexChanged);
             // 
-            // ListBoxLikedPages
+            // listBoxLikedPages
             // 
-            this.ListBoxLikedPages.FormattingEnabled = true;
-            this.ListBoxLikedPages.ItemHeight = 22;
-            this.ListBoxLikedPages.Location = new System.Drawing.Point(0, 417);
-            this.ListBoxLikedPages.Name = "ListBoxLikedPages";
-            this.ListBoxLikedPages.Size = new System.Drawing.Size(276, 268);
-            this.ListBoxLikedPages.TabIndex = 73;
+            this.listBoxLikedPages.FormattingEnabled = true;
+            this.listBoxLikedPages.ItemHeight = 22;
+            this.listBoxLikedPages.Location = new System.Drawing.Point(9, 417);
+            this.listBoxLikedPages.Name = "listBoxLikedPages";
+            this.listBoxLikedPages.Size = new System.Drawing.Size(276, 268);
+            this.listBoxLikedPages.TabIndex = 73;
+            this.listBoxLikedPages.SelectedIndexChanged += new System.EventHandler(this.listBoxLikedPages_SelectedIndexChanged);
             // 
             // pictureBoxLikedPages
             // 
@@ -551,7 +602,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(35, 196);
+            this.label5.Location = new System.Drawing.Point(4, 171);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(147, 29);
             this.label5.TabIndex = 71;
@@ -940,7 +991,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPageFeed.ResumeLayout(false);
             this.tabPageFeed.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPagePosts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikedPages)).EndInit();
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -998,7 +1049,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.PictureBox pictureBoxFriendProfilePicture;
         private System.Windows.Forms.TabPage tabPageFeed;
-        private System.Windows.Forms.ListBox ListBoxLikedPages;
+        private System.Windows.Forms.ListBox listBoxLikedPages;
         private System.Windows.Forms.PictureBox pictureBoxLikedPages;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel6;
@@ -1035,8 +1086,12 @@
         private System.Windows.Forms.Button buttonEnd;
         private System.Windows.Forms.Label labelScore;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.ListBox listBoxFeed;
-        private System.Windows.Forms.PictureBox pictureBoxFeed;
+        private System.Windows.Forms.ListBox listBoxPagePosts;
+        private System.Windows.Forms.PictureBox pictureBoxPagePosts;
+        private System.Windows.Forms.ListBox listBoxPostComments;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ListBox listBoxPostLikes;
+        private System.Windows.Forms.Label label18;
     }
 }
 

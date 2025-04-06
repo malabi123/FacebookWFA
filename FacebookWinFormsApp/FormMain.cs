@@ -9,10 +9,9 @@ namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
-        ChangingPictureBox m_ChangingPictureBoxUserPosts;
-        FacebookWrapper.LoginResult m_LoginResult;
-        FacebookWrapper.ObjectModel.User m_LoggedInUser;
-        string m_AccessToken = "EAAQpHAqlOz0BOwYE5WXzZBdgWZAm9YZBZCwnYlarRVZBecQMK0hvF8v51CJLZCWKZBXasvny8pQwaZAtE2zZBdeunzJHSNDUDPnQCAPcQfWFbnZCsibmmeXOLZAJoY1IRF8R9ybq7LZAIp0En1WNM1JEypev3BNVJ94rLUzk8eivnduwG40F2kZAvk1yfG8YZCDgZDZD";
+        private ChangingPictureBox m_ChangingPictureBoxUserPosts;
+        private FacebookWrapper.LoginResult m_LoginResult;
+        private FacebookWrapper.ObjectModel.User m_LoggedInUser;
         private FriendsFacebookGame m_Game = null;
 
         public FormMain()
@@ -20,17 +19,9 @@ namespace BasicFacebookFeatures
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
             removeTabPages();
-            tabPageProfile.Text = "Profile";
-            tabPageSocial.Text = "Social";
         }
 
         private void removeTabPages()
-        {
-            removeTabPagesForLoggedOutUser();
-            panel3.Visible = false;
-        }
-
-        private void removeTabPagesForLoggedOutUser()
         {
             tabControl1.TabPages.Remove(tabPageSocial);
             tabControl1.TabPages.Remove(tabPageSettings);
@@ -50,7 +41,7 @@ namespace BasicFacebookFeatures
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            if (m_LoginResult == null)
+            if (m_LoginResult == null) 
             {
                 login();
             }
@@ -58,26 +49,23 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            m_LoginResult = FacebookService.Connect(m_AccessToken);
-            /*m_LoginResult = FacebookService.Login(
-                /// (This is Desig Patter's App ID. replace it with your own)
-                "1171100321266493",//textBoxAppID.Text,
+            m_LoginResult = FacebookService.Login(
+            "1171100321266493",
                 /// requested permissions:
                 "email",
-                "public_profile",
-                "user_birthday",
-                "user_friends",
-                "user_gender",
-                "user_location",
-                "user_posts",
-                "user_likes",
-                "user_events"
-                );*/
+            "public_profile",
+            "user_birthday",
+            "user_friends",
+            "user_gender",
+            "user_location",
+            "user_posts",
+            "user_likes",
+            "user_events"
+            );
 
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
-                //m_AccessToken = m_LoginResult.AccessToken;
                 loadAppFeatures();
             }
         }
@@ -92,19 +80,42 @@ namespace BasicFacebookFeatures
             showUserLikedPages();
             showOnlineFriends();
             setChangeSettings();
-            showFeed();
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             FacebookService.LogoutWithUI();
-            buttonLogin.Text = "Login"; 
+            clearAllListBoxes();
+            resetUIAfterLogout();
+
+        }
+
+        private void clearAllListBoxes()
+        {
+            foreach (TabPage tab in tabControl1.TabPages)
+            {
+                foreach (Control control in tab.Controls)
+                {
+                    ListBox listBox = control as ListBox;
+
+                    if (listBox != null)
+                    {
+                        listBox.Items.Clear();
+                    }
+                }
+            }
+        }
+
+        private void resetUIAfterLogout()
+        {
+            buttonLogin.Text = "Login";
             m_LoginResult = null;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
             buttonLogin.Visible = true;
             buttonLogout.Visible = false;
             m_ChangingPictureBoxUserPosts.Visible = false;
+            panel3.Visible = false;
             removeTabPages();
         }
 
@@ -112,37 +123,38 @@ namespace BasicFacebookFeatures
         {
             DateTime today = DateTime.Today;
             int age = today.Year - i_BirthDate.Year;
- 
+
             if (i_BirthDate.Date > today.AddYears(-age))
             {
                 age--;
             }
 
             return age;
-        } 
+        }
 
         private void showLoggedInUser()
-        {           
-            pictureBoxProfile.ImageLocation = m_LoggedInUser.PictureLargeURL;
-            labelBirthday.Text = m_LoggedInUser.Birthday;
-            labelHomeTown.Text = m_LoggedInUser.Location.Name;
-            labelGender.Text = m_LoggedInUser.Gender.ToString();
-            DateTime birthday = DateTime.Parse(m_LoggedInUser.Birthday);
-            int age = calculateAge(birthday);
-            labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
+        {
+            loadLoggedInUserProfileDetails();
 
             panel3.Visible = true;
             m_ChangingPictureBoxUserPosts.Visible = true;
             m_ChangingPictureBoxUserPosts.BringToFront();
 
-            /*buttonLogin.Text = $"Logged in as {m_LoggedInUser.Name}";
-            buttonLogin.BackColor = Color.LightGreen;
-            buttonLogin.Enabled = false;
-            buttonLogin.Left = buttonLogout.Left;*/
             buttonLogin.Visible = false;
-
             buttonLogout.Enabled = true;
-            buttonLogout.Visible = true;           
+            buttonLogout.Visible = true;
+        }
+
+        private void loadLoggedInUserProfileDetails()
+        {
+            pictureBoxProfile.ImageLocation = m_LoggedInUser.PictureLargeURL;
+            labelBirthday.Text = m_LoggedInUser.Birthday;
+            labelHomeTown.Text = m_LoggedInUser.Location.Name;
+            labelGender.Text = m_LoggedInUser.Gender.ToString();
+
+            DateTime birthday = DateTime.Parse(m_LoggedInUser.Birthday);
+            int age = calculateAge(birthday);
+            labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
         }
 
         private void addTabPages()
@@ -161,13 +173,14 @@ namespace BasicFacebookFeatures
 
         private void showUserLikedPages()
         {
-            ListBoxLikedPages.Items.Clear();
-            ListBoxLikedPages.DisplayMember = "Name";
+            listBoxLikedPages.Items.Clear();
+            listBoxLikedPages.DisplayMember = "Name";
 
-            foreach(Page page in m_LoggedInUser.LikedPages)
+            foreach (Page page in m_LoggedInUser.LikedPages)
             {
-                ListBoxLikedPages.Items.Add(page);
+                listBoxLikedPages.Items.Add(page);
             }
+
             if (listBoxUserPosts.Items.Count == 0)
             {
                 MessageBox.Show("You haven't liked any pages yet");
@@ -179,6 +192,7 @@ namespace BasicFacebookFeatures
             listBoxUserFriends.Items.Clear();
             listBoxUserFriends.DisplayMember = "FullName";
 
+            //Not working due to api, instead we are using fake freinds
             /*foreach (User friend in m_LoggedInUser.Friends)
             {
                 listBoxUserFriends.Items.Add(friend);
@@ -201,7 +215,7 @@ namespace BasicFacebookFeatures
 
             foreach (FakeFacebookFriend fakeFriend in FakeFriendsGenerator.sr_FakeFriends)
             {
-                if(fakeFriend.IsOnline)
+                if (fakeFriend.IsOnline)
                 {
                     listBoxOnlineFriends.Items.Add(fakeFriend);
                 }
@@ -212,6 +226,7 @@ namespace BasicFacebookFeatures
         {
             listBoxUserPosts.Items.Clear();
             listBoxUserPosts.DisplayMember = "Name";
+
             foreach (Post post in m_LoggedInUser.Posts)
             {
                 listBoxUserPosts.Items.Add(post);
@@ -219,14 +234,14 @@ namespace BasicFacebookFeatures
 
             if (listBoxUserPosts.Items.Count == 0)
             {
-                MessageBox.Show($"You haven't posted anthing yet{Environment.NewLine}Click here to create a new post");
-            }  
+                MessageBox.Show("You haven't posted anthing yet");
+            }
         }
 
         private void listBoxUserPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
             Post post = listBoxUserPosts.SelectedItem as Post;
-            
+
             if (post != null)
             {
                 this.m_ChangingPictureBoxUserPosts.SetOnePictureURL(post.PictureURL);
@@ -246,13 +261,31 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void ListBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Page page = ListBoxLikedPages.SelectedItem as Page;
+            Page page = listBoxLikedPages.SelectedItem as Page;
+
+            listBoxPagePosts.Items.Clear();
+            listBoxPagePosts.DisplayMember = "Name";
+
+            listBoxPostLikes.Items.Clear();
+            listBoxPostComments.Items.Clear();
 
             if (page != null)
             {
                 pictureBoxLikedPages.ImageLocation = page.PictureURL;
+
+                try
+                {
+                    foreach (Post post in page.Posts)
+                    {
+                        listBoxUserPosts.Items.Add(post);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -260,13 +293,13 @@ namespace BasicFacebookFeatures
         {
             FakeFacebookFriend friend = listBoxUserFriends.SelectedItem as FakeFacebookFriend;
 
-            if(friend != null)
+            if (friend != null)
             {
                 pictureBoxFriendProfilePicture.Image = friend.ProfileImage;
 
-                foreach(object item in listBoxOnlineFriends.Items)
+                foreach (object item in listBoxOnlineFriends.Items)
                 {
-                    if (friend == item) 
+                    if (friend == item)
                     {
                         listBoxOnlineFriends.SelectedItem = item;
                         break;
@@ -310,14 +343,13 @@ namespace BasicFacebookFeatures
             {
                 m_Game = new FriendsFacebookGame(FakeFriendsGenerator.sr_FakeFriends);
             }
-            
+
             if (tryStartGame())
             {
                 loadGameUI();
                 updateNextFriend();
-                updateScore();
+                updateGameScore();
             }
-
         }
 
         private void loadGameUI()
@@ -335,6 +367,11 @@ namespace BasicFacebookFeatures
         private bool tryStartGame()
         {
             bool isGameStarted;
+
+            if (textBoxPlayNumberOfFriends.Text == string.Empty)
+            {
+                textBoxPlayNumberOfFriends.Text = "0";
+            }
 
             try
             {
@@ -362,6 +399,7 @@ namespace BasicFacebookFeatures
         private void updateNextFriend()
         {
             pictureBoxGame.Image = m_Game.GetCurrentFriendImage();
+
             if (!m_Game.IsNameEnabled)
             {
                 textBoxAnswerName.Text = m_Game.GetCurrentFriendFullName();
@@ -370,6 +408,7 @@ namespace BasicFacebookFeatures
             {
                 textBoxAnswerName.Text = string.Empty;
             }
+
             if (!m_Game.IsBirthdayEnabled)
             {
                 dateTimePickerAnswerBirthday.Value = m_Game.GetCurrentFriendBirthday();
@@ -378,6 +417,7 @@ namespace BasicFacebookFeatures
             {
                 dateTimePickerAnswerBirthday.Value = DateTime.Today;
             }
+
             if (!m_Game.IsHometownEnabled)
             {
                 textBoxAnswerHometown.Text = m_Game.GetCurrentFriendHometown();
@@ -388,7 +428,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void updateScore()
+        private void updateGameScore()
         {
             labelScore.Text = $"Score: {m_Game.Score} / {m_Game.MaxScoreUntilNow}";
         }
@@ -398,8 +438,9 @@ namespace BasicFacebookFeatures
             setAnswers();
             m_Game.Next();
             updateNextFriend();
-            updateScore();
-            if (m_Game.CurrentRound == m_Game.NumberOfRounds) 
+            updateGameScore();
+
+            if (m_Game.CurrentRound == m_Game.NumberOfRounds)
             {
                 buttonNext.Visible = false;
             }
@@ -416,7 +457,7 @@ namespace BasicFacebookFeatures
             {
                 m_Game.SetBirthdayAnswer(dateTimePickerAnswerBirthday.Value);
             }
-            
+
             if (m_Game.IsHometownEnabled)
             {
                 m_Game.SetHometownAnswer(textBoxAnswerHometown.Text);
@@ -432,7 +473,7 @@ namespace BasicFacebookFeatures
 
         private void finishGame()
         {
-            updateScore();
+            updateGameScore();
             m_Game = null;
             panelGame.Enabled = false;
             buttonNext.Visible = false;
@@ -453,41 +494,35 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void showFeed()
+        private void listBoxPagePosts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listBoxFeed.Items.Clear();
-            listBoxFeed.DisplayMember = "Name";
+            Post post = listBoxPagePosts.SelectedItem as Post;
 
-            List<Post> feed = getFeed();
+            listBoxPostLikes.Items.Clear();
+            listBoxPostLikes.DisplayMember = "Name";
 
-            foreach (Post post in feed)
-            {
-                listBoxFeed.Items.Add(post);
-            }
-        }
-            
-        private List<Post> getFeed()
-        {
-            List<Post> latestFeed = new List<Post>();
-
-            foreach (User friend in m_LoggedInUser.Friends)
-            {
-                foreach (Post post in friend.Posts)
-                {
-                    latestFeed.Add(post);
-                }
-            }
-
-            return latestFeed;
-        }
-
-        private void listBoxFeed_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Post post = listBoxFeed.SelectedItem as Post;
+            listBoxPostComments.Items.Clear();
+            listBoxPostComments.DisplayMember = "Message";
 
             if (post != null)
             {
-                pictureBoxFeed.ImageLocation = post.PictureURL;
+                pictureBoxPagePosts.ImageLocation = post.PictureURL;
+                try
+                {
+                    foreach (User user in post.LikedBy)
+                    {
+                        listBoxPostLikes.Items.Add(user);
+                    }
+
+                    foreach (Comment comment in post.Comments)
+                    {
+                        listBoxPostComments.Items.Add(comment);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

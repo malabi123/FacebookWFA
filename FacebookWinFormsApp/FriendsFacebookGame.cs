@@ -11,17 +11,17 @@ namespace BasicFacebookFeatures
         private bool m_IsNameEnabled = false;
         private bool m_IsBirthdayEnabled = false;
         private bool m_IsHometownEnabled = false;
-        private List<FakeFacebookFriend> m_CopyFriendsList = null;
-        public int Score { get; private set; } = 0;
-        public int MaxScoreUntilNow { get; private set; } = 0;
-        private Random m_Random = null;
-        public int CurrentRound { get; private set; } = 0;
-        private int m_CurrentFriendIndex;
         private eGameStatus m_GameStatus = eGameStatus.NotStarted;
         private string m_NameAnswer = string.Empty;
         private DateTime m_BirthdayAnswer;
         private string m_HometownAnswer = string.Empty;
+        private Random m_Random = null;
+        private int m_CurrentFriendIndex;
+        private List<FakeFacebookFriend> m_CopyFriendsList = null;
 
+        public int Score { get; private set; } = 0;
+        public int MaxScoreUntilNow { get; private set; } = 0;
+        public int CurrentRound { get; private set; } = 0;
 
         public bool IsNameEnabled
         {
@@ -35,7 +35,9 @@ namespace BasicFacebookFeatures
                 m_IsNameEnabled = value;
             }
         }
-        public bool IsBirthdayEnabled {
+
+        public bool IsBirthdayEnabled
+        {
             get
             {
                 return m_IsBirthdayEnabled;
@@ -46,6 +48,7 @@ namespace BasicFacebookFeatures
                 m_IsBirthdayEnabled = value;
             }
         }
+
         public bool IsHometownEnabled
         {
             get
@@ -58,6 +61,7 @@ namespace BasicFacebookFeatures
                 m_IsHometownEnabled = value;
             }
         }
+
         public int NumberOfRounds
         {
             get
@@ -67,12 +71,14 @@ namespace BasicFacebookFeatures
             set
             {
                 checkForGameNotStarted();
+
                 if (isLegalNumberOfRounds(value))
                 {
                     m_NumberOfRounds = value;
                 }
             }
         }
+
         public bool IsGameOnGoing
         {
             get
@@ -82,7 +88,7 @@ namespace BasicFacebookFeatures
         }
 
         public bool IsGameFinished
-        { 
+        {
             get
             {
                 return m_GameStatus == eGameStatus.Finished;
@@ -125,6 +131,7 @@ namespace BasicFacebookFeatures
                         throw new Exception($"You Must Choose legal Number of Rounds Between 1 and {m_CopyFriendsList.Count}");
                     }
                 }
+
                 m_GameStatus = eGameStatus.Ongoing;
                 m_Random = new Random();
                 chooseNextFriend();
@@ -144,38 +151,43 @@ namespace BasicFacebookFeatures
         public Image GetCurrentFriendImage()
         {
             checkForGameOngoing();
+
             return m_CopyFriendsList[m_CurrentFriendIndex].ProfileImage;
-            
         }
 
         public string GetCurrentFriendFullName()
         {
             checkForGameOngoing();
+
             if (m_IsNameEnabled)
             {
                 throw new Exception("PLease Dont Try To Cheat!");
             }
-            return m_CopyFriendsList[m_CurrentFriendIndex].FullName;
 
+            return m_CopyFriendsList[m_CurrentFriendIndex].FullName;
         }
 
         public DateTime GetCurrentFriendBirthday()
         {
             checkForGameOngoing();
+
             if (m_IsBirthdayEnabled)
             {
                 throw new Exception("PLease Dont Try To Cheat!");
             }
+
             return m_CopyFriendsList[m_CurrentFriendIndex].Birthday;
         }
 
         public string GetCurrentFriendHometown()
         {
             checkForGameOngoing();
+
             if (m_IsHometownEnabled)
             {
                 throw new Exception("PLease Dont Try To Cheat!");
             }
+
             return m_CopyFriendsList[m_CurrentFriendIndex].Hometown;
 
         }
@@ -183,30 +195,36 @@ namespace BasicFacebookFeatures
         public void SetNameAnswer(string i_answer)
         {
             checkForGameOngoing();
+
             if (!IsNameEnabled)
             {
                 throw new Exception("you don't play on this category");
             }
+
             m_NameAnswer = i_answer;
         }
 
         public void SetBirthdayAnswer(DateTime i_answer)
         {
             checkForGameOngoing();
+
             if (!IsBirthdayEnabled)
             {
                 throw new Exception("you don't play on this category");
             }
+
             m_BirthdayAnswer = i_answer;
         }
 
         public void SetHometownAnswer(string i_answer)
         {
             checkForGameOngoing();
+
             if (!IsHometownEnabled)
             {
                 throw new Exception("you don't play on this category");
             }
+
             m_HometownAnswer = i_answer;
         }
 
@@ -215,6 +233,7 @@ namespace BasicFacebookFeatures
             checkForGameOngoing();
             updateScore();
             m_CopyFriendsList.Remove(m_CopyFriendsList[m_CurrentFriendIndex]);
+
             if (NumberOfRounds > CurrentRound)
             {
                 chooseNextFriend();
@@ -237,6 +256,7 @@ namespace BasicFacebookFeatures
                     m_NameAnswer = string.Empty;
                 }
             }
+
             if (IsBirthdayEnabled)
             {
                 MaxScoreUntilNow++;
@@ -247,6 +267,7 @@ namespace BasicFacebookFeatures
                     m_BirthdayAnswer = DateTime.Today;
                 }
             }
+
             if (IsHometownEnabled)
             {
                 MaxScoreUntilNow++;
