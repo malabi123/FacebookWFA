@@ -76,6 +76,7 @@ namespace BasicFacebookFeatures
             showLoggedInUser();
             addTabPages();
             showUserPosts();
+            showUserEvents();
             showUserFriends();
             showUserLikedPages();
             showOnlineFriends();
@@ -197,7 +198,7 @@ namespace BasicFacebookFeatures
             {
                 listBoxUserFriends.Items.Add(friend);
             }
-            if (listBoxUserPosts.Items.Count == 0)
+            if (listBoxUserFriends.Items.Count == 0)
             {
                 MessageBox.Show("You don't have any friends");
             }*/
@@ -235,6 +236,19 @@ namespace BasicFacebookFeatures
             if (listBoxUserPosts.Items.Count == 0)
             {
                 MessageBox.Show("You haven't posted anthing yet");
+            }
+        }
+
+        private void showUserEvents()
+        {
+            FakeFriendsGenerator.GenerateEventsForFriends(m_LoggedInUser.Events.ToList());
+
+            listBoxEvents.Items.Clear();
+            listBoxEvents.DisplayMember = "Name";
+
+            foreach (Event ev in m_LoggedInUser.Events)
+            {
+                listBoxEvents.Items.Add(ev);
             }
         }
 
@@ -296,7 +310,8 @@ namespace BasicFacebookFeatures
             if (friend != null)
             {
                 pictureBoxFriendProfilePicture.Image = friend.ProfileImage;
-
+                listBoxOnlineFriends.SelectedItem = null;
+                
                 foreach (object item in listBoxOnlineFriends.Items)
                 {
                     if (friend == item)
