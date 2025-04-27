@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
+using System.Drawing;
 
 namespace BasicFacebookFeatures
 {
@@ -13,8 +14,8 @@ namespace BasicFacebookFeatures
         private ChangingPictureBox m_ChangingPictureBoxUserPosts;
         private FacebookWrapper.LoginResult m_LoginResult;
         private FacebookWrapper.ObjectModel.User m_LoggedInUser;
-        string access_token = "EAAQpHAqlOz0BO4NZBvMyc1Y2wqrcr4NZCp9FVhzKvkE0kW7hbqrybpVGVKSkKfFpdepILQHvB4zCTufqNDm4H9XVkMgwz0ErmPk1efFZBZA9YgCwwXEeCCVUGSpLrW82XetBuYCmi71ogwq0SZB4HTWlnDN8ZCJI4JRGZCAHNPABA2X3BPVikXgCQZDZD";
         private FriendsFacebookGame m_Game = null;
+        private string m_AccessToken = "EAAQpHAqlOz0BO0U0qHzPIC5lejD3UNWcYQk39bOTAAmZAzQsPoN1o2MQX9tqUZBgd0uFNqFxg5s54NDLjJOZCdeFmBaciZBDcGOEY4pfgYavidjdc2WKDBox2O9iaqh93oR4XmXgp4HcAzMWEe6nSyYhwenB7cptOQ6QVNe4DiMoKCIfFaZADvO7fnQZDZD";
 
         public FormMain()
         {
@@ -51,6 +52,7 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
+            m_LoginResult = FacebookService.Connect(m_AccessToken);
             /*m_LoginResult = FacebookService.Login(
             "1171100321266493",
                 /// requested permissions:
@@ -63,9 +65,8 @@ namespace BasicFacebookFeatures
             "user_posts",
             "user_likes",
             "user_events"
-            );
-*/
-            m_LoginResult = FacebookService.Connect(access_token);
+            );*/
+          
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
@@ -80,7 +81,6 @@ namespace BasicFacebookFeatures
             addTabPages();
             showLoggedInUser();
             new Thread(loadListBoxes).Start();
-            setChangeSettings();
         }
 
         private void loadListBoxes()
@@ -97,7 +97,6 @@ namespace BasicFacebookFeatures
             FacebookService.LogoutWithUI();
             clearAllListBoxes();
             resetUIAfterLogout();
-
         }
 
         private void clearAllListBoxes()
@@ -157,14 +156,14 @@ namespace BasicFacebookFeatures
 
         private void loadLoggedInUserProfileDetails()
         {
-            pictureBoxProfile.ImageLocation = m_LoggedInUser.PictureLargeURL;
-            labelBirthday.Text = m_LoggedInUser.Birthday;
+            userBindingSource.DataSource = m_LoggedInUser;
+
             labelHomeTown.Text = m_LoggedInUser.Location.Name;
             labelGender.Text = m_LoggedInUser.Gender.ToString();
 
             DateTime birthday = DateTime.Parse(m_LoggedInUser.Birthday);
             int age = calculateAge(birthday);
-            labelUserName.Text = $"{m_LoggedInUser.Name}, {age}";
+            labelUserAge.Text = $"{age},";
         }
 
         private void addTabPages()
@@ -173,12 +172,6 @@ namespace BasicFacebookFeatures
             tabControl1.TabPages.Add(tabPageFeed);
             tabControl1.TabPages.Add(tabPagePlay);
             tabControl1.TabPages.Add(tabPageSettings);
-        }
-
-        private void setChangeSettings()
-        {
-            textBoxChangeUsername.Text = m_LoggedInUser.Name;
-            textBoxChangeHomeTown.Text = m_LoggedInUser.Location.Name;
         }
 
         private void showUserLikedPages()
@@ -527,6 +520,29 @@ namespace BasicFacebookFeatures
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void emailTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!emailTextBox.Text.Contains("@"))
+            {
+                e.Cancel = true;
+                MessageBox.Show("Email must contain '@'.", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void buttonChoosePicture_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Image selectedImage = Image.FromFile(openFileDialog.FileName);
+                    imageLargePictureBox.Image = selectedImage;
                 }
             }
         }

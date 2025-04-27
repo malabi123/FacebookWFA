@@ -192,7 +192,7 @@ namespace BasicFacebookFeatures
 
         }
 
-        public void SetNameAnswer(string i_answer)
+        public void SetNameAnswer(string i_Answer)
         {
             checkForGameOngoing();
 
@@ -201,10 +201,10 @@ namespace BasicFacebookFeatures
                 throw new Exception("you don't play on this category");
             }
 
-            m_NameAnswer = i_answer;
+            m_NameAnswer = i_Answer;
         }
 
-        public void SetBirthdayAnswer(DateTime i_answer)
+        public void SetBirthdayAnswer(DateTime i_Answer)
         {
             checkForGameOngoing();
 
@@ -213,10 +213,10 @@ namespace BasicFacebookFeatures
                 throw new Exception("you don't play on this category");
             }
 
-            m_BirthdayAnswer = i_answer;
+            m_BirthdayAnswer = i_Answer;
         }
 
-        public void SetHometownAnswer(string i_answer)
+        public void SetHometownAnswer(string i_Answer)
         {
             checkForGameOngoing();
 
@@ -225,7 +225,7 @@ namespace BasicFacebookFeatures
                 throw new Exception("you don't play on this category");
             }
 
-            m_HometownAnswer = i_answer;
+            m_HometownAnswer = i_Answer;
         }
 
         public void Next()
