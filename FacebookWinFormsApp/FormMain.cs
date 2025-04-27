@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,6 +13,7 @@ namespace BasicFacebookFeatures
         private ChangingPictureBox m_ChangingPictureBoxUserPosts;
         private FacebookWrapper.LoginResult m_LoginResult;
         private FacebookWrapper.ObjectModel.User m_LoggedInUser;
+        string access_token = "EAAQpHAqlOz0BO4NZBvMyc1Y2wqrcr4NZCp9FVhzKvkE0kW7hbqrybpVGVKSkKfFpdepILQHvB4zCTufqNDm4H9XVkMgwz0ErmPk1efFZBZA9YgCwwXEeCCVUGSpLrW82XetBuYCmi71ogwq0SZB4HTWlnDN8ZCJI4JRGZCAHNPABA2X3BPVikXgCQZDZD";
         private FriendsFacebookGame m_Game = null;
 
         public FormMain()
@@ -49,7 +51,7 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            m_LoginResult = FacebookService.Login(
+            /*m_LoginResult = FacebookService.Login(
             "1171100321266493",
                 /// requested permissions:
                 "email",
@@ -62,10 +64,12 @@ namespace BasicFacebookFeatures
             "user_likes",
             "user_events"
             );
-
+*/
+            m_LoginResult = FacebookService.Connect(access_token);
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
+                access_token = m_LoginResult.AccessToken;
                 loadAppFeatures();
             }
         }
@@ -73,14 +77,19 @@ namespace BasicFacebookFeatures
         private void loadAppFeatures()
         {
             initializeUserControlChangingPictureBoxUserPosts();
-            showLoggedInUser();
             addTabPages();
-            showUserPosts();
-            showUserEvents();
-            showUserFriends();
-            showUserLikedPages();
-            showOnlineFriends();
+            showLoggedInUser();
+            new Thread(loadListBoxes).Start();
             setChangeSettings();
+        }
+
+        private void loadListBoxes()
+        {
+            new Thread(showUserPosts).Start();
+            new Thread(showUserEvents).Start();
+            new Thread(showUserFriends).Start();
+            new Thread(showUserLikedPages).Start();
+            new Thread(showOnlineFriends).Start();
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -174,68 +183,50 @@ namespace BasicFacebookFeatures
 
         private void showUserLikedPages()
         {
-            listBoxLikedPages.Items.Clear();
-            listBoxLikedPages.DisplayMember = "Name";
+            listBoxLikedPages.Invoke(new Action(() => listBoxLikedPages.DisplayMember = "Name"));
 
             foreach (Page page in m_LoggedInUser.LikedPages)
             {
-                listBoxLikedPages.Items.Add(page);
-            }
-
-            if (listBoxUserPosts.Items.Count == 0)
-            {
-                MessageBox.Show("You haven't liked any pages yet");
+                listBoxLikedPages.Invoke(new Action(() => listBoxLikedPages.Items.Add(page)));
             }
         }
 
         private void showUserFriends()
         {
-            listBoxUserFriends.Items.Clear();
-            listBoxUserFriends.DisplayMember = "FullName";
+            listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.DisplayMember = "FullName"));
 
             //Not working due to api, instead we are using fake freinds
             /*foreach (User friend in m_LoggedInUser.Friends)
             {
-                listBoxUserFriends.Items.Add(friend);
-            }
-            if (listBoxUserFriends.Items.Count == 0)
-            {
-                MessageBox.Show("You don't have any friends");
-            }*/
+                listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.Items.Add(friend)));
+            } */           
 
             foreach (FakeFacebookFriend fakeFriend in FakeFriendsGenerator.sr_FakeFriends)
             {
-                listBoxUserFriends.Items.Add(fakeFriend);
+                listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.Items.Add(fakeFriend)));
             }
         }
 
         private void showOnlineFriends()
         {
-            listBoxOnlineFriends.Items.Clear();
-            listBoxOnlineFriends.DisplayMember = "FullName";
+            listBoxOnlineFriends.Invoke(new Action(() => listBoxOnlineFriends.DisplayMember = "FullName"));
 
             foreach (FakeFacebookFriend fakeFriend in FakeFriendsGenerator.sr_FakeFriends)
             {
                 if (fakeFriend.IsOnline)
                 {
-                    listBoxOnlineFriends.Items.Add(fakeFriend);
+                    listBoxOnlineFriends.Invoke(new Action(() => listBoxOnlineFriends.Items.Add(fakeFriend)));
                 }
             }
         }
 
         private void showUserPosts()
-        {
-            listBoxUserPosts.Items.Clear();
-            listBoxUserPosts.DisplayMember = "Name";
+        {             
+            listBoxUserPosts.Invoke(new Action(()=>listBoxUserPosts.DisplayMember = "Name"));
 
             foreach (Post post in m_LoggedInUser.Posts)
             {
-                listBoxUserPosts.Items.Add(post);
-            }
-
-            if (listBoxUserPosts.Items.Count == 0)
-            {
-                MessageBox.Show("You haven't posted anthing yet");
+                listBoxUserPosts.Invoke(new Action(() => listBoxUserPosts.Items.Add(post)));
             }
         }
 
@@ -243,12 +234,11 @@ namespace BasicFacebookFeatures
         {
             FakeFriendsGenerator.GenerateEventsForFriends(m_LoggedInUser.Events.ToList());
 
-            listBoxEvents.Items.Clear();
-            listBoxEvents.DisplayMember = "Name";
+            listBoxEvents.Invoke(new Action(() => listBoxEvents.DisplayMember = "Name"));
 
             foreach (Event ev in m_LoggedInUser.Events)
             {
-                listBoxEvents.Items.Add(ev);
+                listBoxEvents.Invoke(new Action(() => listBoxEvents.Items.Add(ev)));
             }
         }
 
