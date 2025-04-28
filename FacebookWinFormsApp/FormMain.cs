@@ -377,7 +377,7 @@ namespace BasicFacebookFeatures
         {
             if (m_Game == null || m_Game.IsGameFinished)
             {
-                m_Game = new FriendsFacebookGame(m_FacebookFriends);
+                m_Game = FriendsFacebookGame.GameInstance;
             }
 
             if (tryStartGame())
@@ -427,6 +427,7 @@ namespace BasicFacebookFeatures
 
         private void setGameSettings()
         {
+            m_Game.CopyFriendsList = m_FacebookFriends;
             m_Game.IsNameEnabled = checkBoxPlayEnableName.Checked;
             m_Game.IsBirthdayEnabled = checkBoxPlayEnableBirthday.Checked;
             m_Game.IsHometownEnabled = checkBoxPlayEnableHometown.Checked;
@@ -510,17 +511,20 @@ namespace BasicFacebookFeatures
         {
             setAnswers();
             m_Game.Next();
+            m_Game.quit();
             finishGame();
         }
 
         private void finishGame()
         {
             updateGameScore();
-            m_Game = null;
+
             panelGame.Enabled = false;
             buttonNext.Visible = false;
             panelGameSettings.Enabled = true;
             buttonEnd.Text = "Game Ended";
+
+            m_Game.ResetGame();
         }
 
         private void button4_Click(object sender, EventArgs e)

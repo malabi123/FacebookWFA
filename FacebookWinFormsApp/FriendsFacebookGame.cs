@@ -5,23 +5,42 @@ using System.Drawing;
 
 namespace BasicFacebookFeatures
 {
-    public class FriendsFacebookGame
+    public sealed class FriendsFacebookGame
     {
+        private static readonly FriendsFacebookGame sr_GameInstance = new FriendsFacebookGame();
         private int m_NumberOfRounds = 0;
         private bool m_IsNameEnabled = false;
         private bool m_IsBirthdayEnabled = false;
         private bool m_IsHometownEnabled = false;
         private eGameStatus m_GameStatus = eGameStatus.NotStarted;
         private string m_NameAnswer = string.Empty;
-        private DateTime m_BirthdayAnswer;
+        private DateTime m_BirthdayAnswer=DateTime.Today;
         private string m_HometownAnswer = string.Empty;
         private Random m_Random = null;
         private int m_CurrentFriendIndex;
         private List<ISocialNetworkFriend> m_CopyFriendsList = null;
 
+        public static FriendsFacebookGame GameInstance
+        {
+            get
+            {
+                return sr_GameInstance;
+            }
+        }
+
         public int Score { get; private set; } = 0;
         public int MaxScoreUntilNow { get; private set; } = 0;
         public int CurrentRound { get; private set; } = 0;
+
+        public List<ISocialNetworkFriend> CopyFriendsList
+        {
+            set
+            {
+                checkForGameNotStarted();
+
+                m_CopyFriendsList = value.ToList();
+            }
+        }
 
         public bool IsNameEnabled
         {
@@ -71,11 +90,20 @@ namespace BasicFacebookFeatures
             set
             {
                 checkForGameNotStarted();
+                checkForListOfFriendsSet();
 
                 if (isLegalNumberOfRounds(value))
                 {
                     m_NumberOfRounds = value;
                 }
+            }
+        }
+
+        private void checkForListOfFriendsSet()
+        {
+            if(m_CopyFriendsList== null || m_CopyFriendsList.Count == 0)
+            {
+                throw new Exception("FriendList Must be set with at least one friend to do that");
             }
         }
 
@@ -111,15 +139,25 @@ namespace BasicFacebookFeatures
             }
         }
 
-        public FriendsFacebookGame(List<ISocialNetworkFriend> i_FriendsList)
+        private void checkForGameFinished()
         {
-            m_CopyFriendsList = i_FriendsList.ToList();
+            if (m_GameStatus != eGameStatus.Finished)
+            {
+                throw new Exception("Can't Do this when game didn't finished yet");
+            }
+        }
+
+        private FriendsFacebookGame()
+        {
+           
         }
 
         public void StartGame()
         {
             if (m_GameStatus == eGameStatus.NotStarted)
             {
+                checkForListOfFriendsSet();   
+
                 if (!IsNameEnabled && !IsBirthdayEnabled && !IsHometownEnabled)
                 {
                     throw new Exception("You have to choose at least one category between name, birthday and hometown!");
@@ -242,6 +280,31 @@ namespace BasicFacebookFeatures
             {
                 m_GameStatus = eGameStatus.Finished;
             }
+        }
+
+        public void quit()
+        {
+            m_GameStatus = eGameStatus.Finished;
+        }
+
+        public void ResetGame()
+        {
+            checkForGameFinished();
+
+            m_NumberOfRounds = 0;
+            m_IsNameEnabled = false;
+            m_IsBirthdayEnabled = false;
+            m_IsHometownEnabled = false;
+            m_GameStatus = eGameStatus.NotStarted;
+            m_NameAnswer = string.Empty;
+            m_BirthdayAnswer = DateTime.Today;
+            m_HometownAnswer = string.Empty;
+            m_Random = null;
+            m_CurrentFriendIndex = 0;
+            m_CopyFriendsList = null;
+            Score = 0;
+            MaxScoreUntilNow = 0;
+            CurrentRound = 0;
         }
 
         private void updateScore()
