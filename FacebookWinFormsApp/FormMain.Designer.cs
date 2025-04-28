@@ -108,6 +108,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.checkBoxUseFakeFriends = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPageProfile.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -175,6 +176,7 @@
             // 
             // tabPageProfile
             // 
+            this.tabPageProfile.Controls.Add(this.checkBoxUseFakeFriends);
             this.tabPageProfile.Controls.Add(this.panel3);
             this.tabPageProfile.Controls.Add(this.panel1);
             this.tabPageProfile.Controls.Add(this.buttonLogin);
@@ -964,6 +966,18 @@
             this.pictureBox3.TabIndex = 64;
             this.pictureBox3.TabStop = false;
             // 
+            // checkBoxUseFakeFriends
+            // 
+            this.checkBoxUseFakeFriends.AutoSize = true;
+            this.checkBoxUseFakeFriends.Checked = true;
+            this.checkBoxUseFakeFriends.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxUseFakeFriends.Location = new System.Drawing.Point(894, 169);
+            this.checkBoxUseFakeFriends.Name = "checkBoxUseFakeFriends";
+            this.checkBoxUseFakeFriends.Size = new System.Drawing.Size(181, 28);
+            this.checkBoxUseFakeFriends.TabIndex = 66;
+            this.checkBoxUseFakeFriends.Text = "Use Fake Friends";
+            this.checkBoxUseFakeFriends.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
@@ -977,6 +991,7 @@
             this.Text = "Facebook";
             this.tabControl1.ResumeLayout(false);
             this.tabPageProfile.ResumeLayout(false);
+            this.tabPageProfile.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
@@ -1092,6 +1107,7 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.ListBox listBoxPostLikes;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.CheckBox checkBoxUseFakeFriends;
     }
 }
 

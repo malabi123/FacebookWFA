@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace BasicFacebookFeatures
         private FacebookWrapper.ObjectModel.User m_LoggedInUser;
         string access_token = "EAAQpHAqlOz0BO4NZBvMyc1Y2wqrcr4NZCp9FVhzKvkE0kW7hbqrybpVGVKSkKfFpdepILQHvB4zCTufqNDm4H9XVkMgwz0ErmPk1efFZBZA9YgCwwXEeCCVUGSpLrW82XetBuYCmi71ogwq0SZB4HTWlnDN8ZCJI4JRGZCAHNPABA2X3BPVikXgCQZDZD";
         private FriendsFacebookGame m_Game = null;
+        private List<ISocialNetworkFriend> m_FacebookFriends = null;
 
         public FormMain()
         {
             InitializeComponent();
+            initializeUserControlChangingPictureBoxUserPosts();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
             removeTabPages();
         }
@@ -51,7 +54,7 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            /*m_LoginResult = FacebookService.Login(
+            m_LoginResult = FacebookService.Login(
             "1171100321266493",
                 /// requested permissions:
                 "email",
@@ -64,23 +67,59 @@ namespace BasicFacebookFeatures
             "user_likes",
             "user_events"
             );
-*/
-            m_LoginResult = FacebookService.Connect(access_token);
+            //m_LoginResult = FacebookService.Connect(access_token);
+
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
-                access_token = m_LoginResult.AccessToken;
+                loadFriends();
                 loadAppFeatures();
             }
+            else
+            {
+                m_LoginResult = null;
+            }
+        }
+
+        private void loadFriends()
+        {
+            if(checkBoxUseFakeFriends.Checked)
+            {
+                loadFakeFriends();
+            }
+            else
+            {
+                loadRealFriends();
+            }
+        }
+
+        private void loadRealFriends()
+        {
+            List<User> friendsList = m_LoggedInUser.Friends.ToList();
+            m_FacebookFriends = new List<ISocialNetworkFriend>();
+
+            foreach (User friend in friendsList)
+            {
+                m_FacebookFriends.Add(new UserFriendAdapter(friend));
+            }
+        }
+
+        private void loadFakeFriends()
+        {
+            m_FacebookFriends = FakeFriendsGenerator.sr_FakeFriends;
+            FakeFriendsGenerator.GenerateEventsForFriends(m_LoggedInUser.Events.ToList());
         }
 
         private void loadAppFeatures()
         {
-            initializeUserControlChangingPictureBoxUserPosts();
+            hideLogInControls();
             addTabPages();
-            showLoggedInUser();
+            showProfileControls();
+            loadLoggedInUserProfileDetails();
             new Thread(loadListBoxes).Start();
             setChangeSettings();
+
+            textBoxPlayNumberOfFriends.Text = Math.Min(m_FacebookFriends.Count, 5).ToString();
         }
 
         private void loadListBoxes()
@@ -118,11 +157,10 @@ namespace BasicFacebookFeatures
 
         private void resetUIAfterLogout()
         {
-            buttonLogin.Text = "Login";
             m_LoginResult = null;
-            buttonLogin.Enabled = true;
-            buttonLogout.Enabled = false;
+            m_LoggedInUser = null;
             buttonLogin.Visible = true;
+            checkBoxUseFakeFriends.Visible = true;
             buttonLogout.Visible = false;
             m_ChangingPictureBoxUserPosts.Visible = false;
             panel3.Visible = false;
@@ -142,17 +180,19 @@ namespace BasicFacebookFeatures
             return age;
         }
 
-        private void showLoggedInUser()
+        private void showProfileControls()
         {
-            loadLoggedInUserProfileDetails();
-
             panel3.Visible = true;
             m_ChangingPictureBoxUserPosts.Visible = true;
             m_ChangingPictureBoxUserPosts.BringToFront();
-
-            buttonLogin.Visible = false;
             buttonLogout.Enabled = true;
             buttonLogout.Visible = true;
+        }
+
+        private void hideLogInControls()
+        {
+            buttonLogin.Visible = false;
+            checkBoxUseFakeFriends.Visible = false;
         }
 
         private void loadLoggedInUserProfileDetails()
@@ -201,9 +241,9 @@ namespace BasicFacebookFeatures
                 listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.Items.Add(friend)));
             } */           
 
-            foreach (FakeFacebookFriend fakeFriend in FakeFriendsGenerator.sr_FakeFriends)
+            foreach (ISocialNetworkFriend friend in m_FacebookFriends)
             {
-                listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.Items.Add(fakeFriend)));
+                listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.Items.Add(friend)));
             }
         }
 
@@ -211,11 +251,11 @@ namespace BasicFacebookFeatures
         {
             listBoxOnlineFriends.Invoke(new Action(() => listBoxOnlineFriends.DisplayMember = "FullName"));
 
-            foreach (FakeFacebookFriend fakeFriend in FakeFriendsGenerator.sr_FakeFriends)
+            foreach (ISocialNetworkFriend friend in m_FacebookFriends)
             {
-                if (fakeFriend.IsOnline)
+                if (friend.IsOnline)
                 {
-                    listBoxOnlineFriends.Invoke(new Action(() => listBoxOnlineFriends.Items.Add(fakeFriend)));
+                    listBoxOnlineFriends.Invoke(new Action(() => listBoxOnlineFriends.Items.Add(friend)));
                 }
             }
         }
@@ -232,8 +272,6 @@ namespace BasicFacebookFeatures
 
         private void showUserEvents()
         {
-            FakeFriendsGenerator.GenerateEventsForFriends(m_LoggedInUser.Events.ToList());
-
             listBoxEvents.Invoke(new Action(() => listBoxEvents.DisplayMember = "Name"));
 
             foreach (Event ev in m_LoggedInUser.Events)
@@ -295,11 +333,11 @@ namespace BasicFacebookFeatures
 
         private void listBoxUserFriends_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FakeFacebookFriend friend = listBoxUserFriends.SelectedItem as FakeFacebookFriend;
+            ISocialNetworkFriend friend = listBoxUserFriends.SelectedItem as ISocialNetworkFriend;
 
             if (friend != null)
             {
-                pictureBoxFriendProfilePicture.Image = friend.ProfileImage;
+                setImageInPictureBoxFromObject(pictureBoxFriendProfilePicture, friend.ProfileImage);
                 listBoxOnlineFriends.SelectedItem = null;
                 
                 foreach (object item in listBoxOnlineFriends.Items)
@@ -320,11 +358,10 @@ namespace BasicFacebookFeatures
 
         private void checkBoxFilterEventsByFriends_CheckedChanged(object sender, EventArgs e)
         {
-            FakeFriendsGenerator.GenerateEventsForFriends(m_LoggedInUser.Events.ToList());
 
             if (checkBoxFilterEventsByFriends.Checked)
             {
-                FakeFacebookFriend friend = listBoxUserFriends.SelectedItem as FakeFacebookFriend;
+                ISocialNetworkFriend friend = listBoxUserFriends.SelectedItem as ISocialNetworkFriend;
 
                 if (friend == null)
                 {
@@ -346,12 +383,13 @@ namespace BasicFacebookFeatures
         {
             if (m_Game == null || m_Game.IsGameFinished)
             {
-                m_Game = new FriendsFacebookGame(FakeFriendsGenerator.sr_FakeFriends);
+                m_Game = new FriendsFacebookGame(m_FacebookFriends);
             }
 
             if (tryStartGame())
             {
                 loadGameUI();
+                checkForLastRound();
                 updateNextFriend();
                 updateGameScore();
             }
@@ -403,7 +441,7 @@ namespace BasicFacebookFeatures
 
         private void updateNextFriend()
         {
-            pictureBoxGame.Image = m_Game.GetCurrentFriendImage();
+            setImageInPictureBoxFromObject(pictureBoxGame, m_Game.GetCurrentFriendImage());
 
             if (!m_Game.IsNameEnabled)
             {
@@ -445,6 +483,11 @@ namespace BasicFacebookFeatures
             updateNextFriend();
             updateGameScore();
 
+            checkForLastRound();
+        }
+
+        private void checkForLastRound()
+        {
             if (m_Game.CurrentRound == m_Game.NumberOfRounds)
             {
                 buttonNext.Visible = false;
@@ -527,6 +570,29 @@ namespace BasicFacebookFeatures
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                }
+            }
+        }
+    
+        private void setImageInPictureBoxFromObject(PictureBox i_PictureBox, object i_Picture)
+        {
+            string pictureUrl = i_Picture as string;
+
+            if (pictureUrl != null)
+            {
+                i_PictureBox.ImageLocation = pictureUrl;
+            }
+            else
+            {
+                Image image = i_Picture as Image;
+
+                if (image != null)
+                {
+                    i_PictureBox.Image = image;
+                }
+                else
+                {
+                    throw new Exception("Object Must Be string or Image");
                 }
             }
         }

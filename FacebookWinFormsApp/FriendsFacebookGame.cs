@@ -17,7 +17,7 @@ namespace BasicFacebookFeatures
         private string m_HometownAnswer = string.Empty;
         private Random m_Random = null;
         private int m_CurrentFriendIndex;
-        private List<FakeFacebookFriend> m_CopyFriendsList = null;
+        private List<ISocialNetworkFriend> m_CopyFriendsList = null;
 
         public int Score { get; private set; } = 0;
         public int MaxScoreUntilNow { get; private set; } = 0;
@@ -111,7 +111,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        public FriendsFacebookGame(List<FakeFacebookFriend> i_FriendsList)
+        public FriendsFacebookGame(List<ISocialNetworkFriend> i_FriendsList)
         {
             m_CopyFriendsList = i_FriendsList.ToList();
         }
@@ -148,7 +148,7 @@ namespace BasicFacebookFeatures
             CurrentRound++;
         }
 
-        public Image GetCurrentFriendImage()
+        public object GetCurrentFriendImage()
         {
             checkForGameOngoing();
 
