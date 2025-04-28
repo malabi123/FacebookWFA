@@ -6,7 +6,7 @@ namespace BasicFacebookFeatures
 {
     internal static class FakeFriendsGenerator
     {
-        public static readonly List<FakeFacebookFriend> sr_FakeFriends = new List<FakeFacebookFriend>
+        public static readonly List<ISocialNetworkFriend> sr_FakeFriends = new List<ISocialNetworkFriend>
         {
             new FakeFacebookFriend("Mickey Mouse", true, Properties.Resources.MickeyMouse, new DateTime(1928, 11, 18), "Toontown"),
             new FakeFacebookFriend("Bugs Bunny", false, Properties.Resources.BugsBunny, new DateTime(1940, 7, 27), "Brooklyn"),
@@ -24,9 +24,10 @@ namespace BasicFacebookFeatures
         {
             Random random = new Random();
 
-            foreach (FakeFacebookFriend friend in sr_FakeFriends)
+            foreach (ISocialNetworkFriend friend in sr_FakeFriends)
             {
-                friend.AttendingEvents = chooseRandomEvents(i_MyEvents, random);
+                FakeFacebookFriend fakeFriend = friend as FakeFacebookFriend;
+                fakeFriend.Events = chooseRandomEvents(i_MyEvents, random);
             }
         }
 
