@@ -37,7 +37,11 @@ namespace BasicFacebookFeatures
             set
             {
                 checkForGameNotStarted();
-
+                
+                if(value == null)
+                {
+                    throw new Exception("Must Enter Friends List!");
+                }
                 m_CopyFriendsList = value.ToList();
             }
         }

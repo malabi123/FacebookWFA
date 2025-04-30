@@ -97,15 +97,25 @@
     </Compile>
     <Compile Include="FriendsFacebookGame.cs" />
     <Compile Include="eGameStatus.cs" />
+    <Compile Include="FriendsFacebookGameFacade.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FriendsFacebookGameFacade.Designer.cs">
+      <DependentUpon>FriendsFacebookGameFacade.cs</DependentUpon>
+    </Compile>
     <Compile Include="ISocialNetworkFriend.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserFriendAdapter.cs" />
+    <Compile Include="Utility.cs" />
     <EmbeddedResource Include="ChangingPictureBox.resx">
       <DependentUpon>ChangingPictureBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FriendsFacebookGameFacade.resx">
+      <DependentUpon>FriendsFacebookGameFacade.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

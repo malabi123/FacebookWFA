@@ -15,15 +15,15 @@ namespace BasicFacebookFeatures
         private ChangingPictureBox m_ChangingPictureBoxUserPosts;
         private FacebookWrapper.LoginResult m_LoginResult;
         private FacebookWrapper.ObjectModel.User m_LoggedInUser;
-        private FriendsFacebookGame m_Game = null;
         private List<ISocialNetworkFriend> m_FacebookFriends = null;
         private string m_AccessToken = "EAAQpHAqlOz0BO0U0qHzPIC5lejD3UNWcYQk39bOTAAmZAzQsPoN1o2MQX9tqUZBgd0uFNqFxg5s54NDLjJOZCdeFmBaciZBDcGOEY4pfgYavidjdc2WKDBox2O9iaqh93oR4XmXgp4HcAzMWEe6nSyYhwenB7cptOQ6QVNe4DiMoKCIfFaZADvO7fnQZDZD";
-
+        private FriendsFacebookGameFacade m_GameFacade;
 
         public FormMain()
         {
             InitializeComponent();
             initializeUserControlChangingPictureBoxUserPosts();
+            initializeUserControlFriendsFacebookGameFacade();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
             removeTabPages();
         }
@@ -33,7 +33,7 @@ namespace BasicFacebookFeatures
             tabControl1.TabPages.Remove(tabPageSocial);
             tabControl1.TabPages.Remove(tabPageSettings);
             tabControl1.TabPages.Remove(tabPageFeed);
-            tabControl1.TabPages.Remove(tabPagePlay);
+            tabControl1.TabPages.Remove(tabPageGame);
         }
 
         private void initializeUserControlChangingPictureBoxUserPosts()
@@ -46,9 +46,20 @@ namespace BasicFacebookFeatures
             m_ChangingPictureBoxUserPosts.Visible = false;
         }
 
+        private void initializeUserControlFriendsFacebookGameFacade()
+        {
+            m_GameFacade = new FriendsFacebookGameFacade();
+            tabPageGame.Controls.Add(m_GameFacade);
+            m_GameFacade.Top = panel8.Bottom + 30; ;
+            m_GameFacade.Left = 30;
+            m_GameFacade.Height = 450;
+            m_GameFacade.Width = 1000;
+            m_GameFacade.Visible = true;
+        }
+
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            if (m_LoginResult == null) 
+            if (m_LoginResult == null)
             {
                 login();
             }
@@ -70,11 +81,12 @@ namespace BasicFacebookFeatures
             "user_likes",
             "user_events"
             );*/
-          
+
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser;
                 loadFriends();
+                m_GameFacade.SetFacebookFriends(m_FacebookFriends);
                 loadAppFeatures();
             }
             else
@@ -85,7 +97,7 @@ namespace BasicFacebookFeatures
 
         private void loadFriends()
         {
-            if(checkBoxUseFakeFriends.Checked)
+            if (checkBoxUseFakeFriends.Checked)
             {
                 loadFakeFriends();
             }
@@ -119,8 +131,6 @@ namespace BasicFacebookFeatures
             showProfileControls();
             loadLoggedInUserProfileDetails();
             new Thread(loadListBoxes).Start();
-            
-            textBoxPlayNumberOfFriends.Text = Math.Min(m_FacebookFriends.Count, 5).ToString();
         }
 
         private void loadListBoxes()
@@ -211,7 +221,7 @@ namespace BasicFacebookFeatures
         {
             tabControl1.TabPages.Add(tabPageSocial);
             tabControl1.TabPages.Add(tabPageFeed);
-            tabControl1.TabPages.Add(tabPagePlay);
+            tabControl1.TabPages.Add(tabPageGame);
             tabControl1.TabPages.Add(tabPageSettings);
         }
 
@@ -233,7 +243,7 @@ namespace BasicFacebookFeatures
             /*foreach (User friend in m_LoggedInUser.Friends)
             {
                 listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.Items.Add(friend)));
-            } */           
+            } */
 
             foreach (ISocialNetworkFriend friend in m_FacebookFriends)
             {
@@ -255,8 +265,8 @@ namespace BasicFacebookFeatures
         }
 
         private void showUserPosts()
-        {             
-            listBoxUserPosts.Invoke(new Action(()=>listBoxUserPosts.DisplayMember = "Name"));
+        {
+            listBoxUserPosts.Invoke(new Action(() => listBoxUserPosts.DisplayMember = "Name"));
 
             foreach (Post post in m_LoggedInUser.Posts)
             {
@@ -331,9 +341,9 @@ namespace BasicFacebookFeatures
 
             if (friend != null)
             {
-                setImageInPictureBoxFromObject(pictureBoxFriendProfilePicture, friend.ProfileImage);
+                Utility.setImageInPictureBoxFromObject(pictureBoxFriendProfilePicture, friend.ProfileImage);
                 listBoxOnlineFriends.SelectedItem = null;
-                
+
                 foreach (object item in listBoxOnlineFriends.Items)
                 {
                     if (friend == item)
@@ -365,179 +375,9 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void buttonStartGame_Click(object sender, EventArgs e)
-        {
-            if (m_Game == null || m_Game.IsGameFinished)
-            {
-                m_Game = FriendsFacebookGame.GameInstance;
-            }
-
-            if (tryStartGame())
-            {
-                loadGameUI();
-                checkForLastRound();
-                updateNextFriend();
-                updateGameScore();
-            }
-        }
-
-        private void loadGameUI()
-        {
-            textBoxAnswerName.Enabled = m_Game.IsNameEnabled;
-            textBoxAnswerHometown.Enabled = m_Game.IsHometownEnabled;
-            dateTimePickerAnswerBirthday.Enabled = m_Game.IsBirthdayEnabled;
-            panelGameSettings.Enabled = false;
-            panelGame.Visible = true;
-            panelGame.Enabled = true;
-            buttonNext.Visible = true;
-            buttonEnd.Text = "End Game";
-        }
-
-        private bool tryStartGame()
-        {
-            bool isGameStarted;
-
-            if (textBoxPlayNumberOfFriends.Text == string.Empty)
-            {
-                textBoxPlayNumberOfFriends.Text = "0";
-            }
-
-            try
-            {
-                setGameSettings();
-                m_Game.StartGame();
-                isGameStarted = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                isGameStarted = false;
-            }
-
-            return isGameStarted;
-        }
-
-        private void setGameSettings()
-        {
-            m_Game.CopyFriendsList = m_FacebookFriends;
-            m_Game.IsNameEnabled = checkBoxPlayEnableName.Checked;
-            m_Game.IsBirthdayEnabled = checkBoxPlayEnableBirthday.Checked;
-            m_Game.IsHometownEnabled = checkBoxPlayEnableHometown.Checked;
-            m_Game.NumberOfRounds = int.Parse(textBoxPlayNumberOfFriends.Text);
-        }
-
-        private void updateNextFriend()
-        {
-            setImageInPictureBoxFromObject(pictureBoxGame, m_Game.GetCurrentFriendImage());
-
-            if (!m_Game.IsNameEnabled)
-            {
-                textBoxAnswerName.Text = m_Game.GetCurrentFriendFullName();
-            }
-            else
-            {
-                textBoxAnswerName.Text = string.Empty;
-            }
-
-            if (!m_Game.IsBirthdayEnabled)
-            {
-                dateTimePickerAnswerBirthday.Value = m_Game.GetCurrentFriendBirthday();
-            }
-            else
-            {
-                dateTimePickerAnswerBirthday.Value = DateTime.Today;
-            }
-
-            if (!m_Game.IsHometownEnabled)
-            {
-                textBoxAnswerHometown.Text = m_Game.GetCurrentFriendHometown();
-            }
-            else
-            {
-                textBoxAnswerHometown.Text = string.Empty;
-            }
-        }
-
-        private void updateGameScore()
-        {
-            labelScore.Text = $"Score: {m_Game.Score} / {m_Game.MaxScoreUntilNow}";
-        }
-
-        private void buttonNext_Click(object sender, EventArgs e)
-        {
-            setAnswers();
-            m_Game.Next();
-            updateNextFriend();
-            updateGameScore();
-
-            checkForLastRound();
-        }
-
-        private void checkForLastRound()
-        {
-            if (m_Game.CurrentRound == m_Game.NumberOfRounds)
-            {
-                buttonNext.Visible = false;
-            }
-        }
-
-        private void setAnswers()
-        {
-            if (m_Game.IsNameEnabled)
-            {
-                m_Game.SetNameAnswer(textBoxAnswerName.Text);
-            }
-
-            if (m_Game.IsBirthdayEnabled)
-            {
-                m_Game.SetBirthdayAnswer(dateTimePickerAnswerBirthday.Value);
-            }
-
-            if (m_Game.IsHometownEnabled)
-            {
-                m_Game.SetHometownAnswer(textBoxAnswerHometown.Text);
-            }
-        }
-
-        private void buttonEnd_Click(object sender, EventArgs e)
-        {
-            setAnswers();
-            m_Game.Next();
-            m_Game.quit();
-            finishGame();
-        }
-
-        private void finishGame()
-        {
-            updateGameScore();
-
-            panelGame.Enabled = false;
-            buttonNext.Visible = false;
-            panelGameSettings.Enabled = true;
-            buttonEnd.Text = "Game Ended";
-
-            m_Game.ResetGame();
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
-            tabControl1.SelectedTab = tabPagePlay;
-        }
-
-        private void tabPagePlay_Leave(object sender, EventArgs e)
-        {
-            if (m_Game != null)
-            {
-                finishGame();
-            }
+            tabControl1.SelectedTab = tabPageGame;
         }
 
         private void listBoxPagePosts_SelectedIndexChanged(object sender, EventArgs e)
@@ -571,29 +411,6 @@ namespace BasicFacebookFeatures
                 }
             }
         }
-    
-        private void setImageInPictureBoxFromObject(PictureBox i_PictureBox, object i_Picture)
-        {
-            string pictureUrl = i_Picture as string;
-
-            if (pictureUrl != null)
-            {
-                i_PictureBox.ImageLocation = pictureUrl;
-            }
-            else
-            {
-                Image image = i_Picture as Image;
-
-                if (image != null)
-                {
-                    i_PictureBox.Image = image;
-                }
-                else
-                {
-                    throw new Exception("Object Must Be string or Image");
-                }
-            }
-         }
 
         private void emailTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
