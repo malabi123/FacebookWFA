@@ -15,14 +15,14 @@ namespace BasicFacebookFeatures
             m_Friend = i_Friend;
             m_Events = i_Friend.Events.ToList();
         }
-        public string FullName 
+        public string FullName
         {
             get
             {
                 return m_Friend.Name;
-            } 
+            }
         }
-        public DateTime Birthday 
+        public DateTime Birthday
         {
             get
             {
@@ -43,15 +43,17 @@ namespace BasicFacebookFeatures
                 return m_Friend.ImageLarge;
             }
         }
-        public bool IsOnline 
+        public bool IsOnline
         {
             get
             {
                 bool isOnline = false;
+
                 if (m_Friend.OnlineStatus != null)
                 {
                     isOnline = m_Friend.OnlineStatus == User.eOnlineStatus.active;
                 }
+
                 return isOnline;
             }
         }
@@ -62,6 +64,5 @@ namespace BasicFacebookFeatures
                 return m_Events;
             }
         }
-
     }
 }

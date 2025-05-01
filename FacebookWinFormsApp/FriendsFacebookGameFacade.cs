@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BasicFacebookFeatures
@@ -14,7 +8,7 @@ namespace BasicFacebookFeatures
     {
         private FriendsFacebookGame m_Game = null;
         private List<ISocialNetworkFriend> m_FacebookFriends = null;
-       
+
         public FriendsFacebookGameFacade()
         {
             InitializeComponent();
@@ -23,13 +17,13 @@ namespace BasicFacebookFeatures
         public void SetFacebookFriends(List<ISocialNetworkFriend> i_FacebookFriends)
         {
             m_FacebookFriends = i_FacebookFriends;
-            textBoxPlayNumberOfFriends.Text = Math.Min(5 , m_FacebookFriends.Count).ToString();
+            textBoxPlayNumberOfFriends.Text = Math.Min(5, m_FacebookFriends.Count).ToString();
         }
 
         private void buttonStartGame_Click(object sender, EventArgs e)
         {
             m_Game = FriendsFacebookGame.GameInstance;
-           
+
             if (tryStartGame())
             {
                 loadGameUI();
@@ -49,11 +43,10 @@ namespace BasicFacebookFeatures
             buttonEnd.Visible = true;
             buttonEnd.Enabled = true;
 
-
             textBoxAnswerName.Enabled = m_Game.IsNameEnabled;
             textBoxAnswerHometown.Enabled = m_Game.IsHometownEnabled;
             dateTimePickerAnswerBirthday.Enabled = m_Game.IsBirthdayEnabled;
-            
+
             buttonNext.Visible = true;
             buttonEnd.Text = "End Game";
         }
@@ -134,7 +127,6 @@ namespace BasicFacebookFeatures
             m_Game.Next();
             updateNextFriend();
             updateGameScore();
-
             checkForLastRound();
         }
 
@@ -168,7 +160,7 @@ namespace BasicFacebookFeatures
         {
             setAnswers();
             m_Game.Next();
-            m_Game.quit();
+            m_Game.Quit();
             finishGame();
         }
 

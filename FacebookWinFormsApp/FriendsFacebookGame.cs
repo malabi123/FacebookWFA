@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Drawing;
 
 namespace BasicFacebookFeatures
 {
@@ -14,10 +13,10 @@ namespace BasicFacebookFeatures
         private bool m_IsHometownEnabled = false;
         private eGameStatus m_GameStatus = eGameStatus.NotStarted;
         private string m_NameAnswer = string.Empty;
-        private DateTime m_BirthdayAnswer=DateTime.Today;
+        private DateTime m_BirthdayAnswer = DateTime.Today;
         private string m_HometownAnswer = string.Empty;
         private Random m_Random = null;
-        private int m_CurrentFriendIndex;
+        private int m_CurrentFriendIndex = 0;
         private List<ISocialNetworkFriend> m_CopyFriendsList = null;
 
         public static FriendsFacebookGame GameInstance
@@ -27,7 +26,6 @@ namespace BasicFacebookFeatures
                 return sr_GameInstance;
             }
         }
-
         public int Score { get; private set; } = 0;
         public int MaxScoreUntilNow { get; private set; } = 0;
         public int CurrentRound { get; private set; } = 0;
@@ -37,11 +35,12 @@ namespace BasicFacebookFeatures
             set
             {
                 checkForGameNotStarted();
-                
-                if(value == null)
+
+                if (value == null)
                 {
                     throw new Exception("Must Enter Friends List!");
                 }
+
                 m_CopyFriendsList = value.ToList();
             }
         }
@@ -105,7 +104,7 @@ namespace BasicFacebookFeatures
 
         private void checkForListOfFriendsSet()
         {
-            if(m_CopyFriendsList== null || m_CopyFriendsList.Count == 0)
+            if (m_CopyFriendsList == null || m_CopyFriendsList.Count == 0)
             {
                 throw new Exception("FriendList Must be set with at least one friend to do that");
             }
@@ -153,14 +152,14 @@ namespace BasicFacebookFeatures
 
         private FriendsFacebookGame()
         {
-           
+
         }
 
         public void StartGame()
         {
             if (m_GameStatus == eGameStatus.NotStarted)
             {
-                checkForListOfFriendsSet();   
+                checkForListOfFriendsSet();
 
                 if (!IsNameEnabled && !IsBirthdayEnabled && !IsHometownEnabled)
                 {
@@ -231,7 +230,6 @@ namespace BasicFacebookFeatures
             }
 
             return m_CopyFriendsList[m_CurrentFriendIndex].Hometown;
-
         }
 
         public void SetNameAnswer(string i_Answer)
@@ -286,7 +284,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        public void quit()
+        public void Quit()
         {
             m_GameStatus = eGameStatus.Finished;
         }

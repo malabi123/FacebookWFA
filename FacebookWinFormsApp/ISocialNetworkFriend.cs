@@ -4,7 +4,6 @@ using FacebookWrapper.ObjectModel;
 
 namespace BasicFacebookFeatures
 {
-    //should it be public?
     public interface ISocialNetworkFriend
     {
         string FullName { get; }

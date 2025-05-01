@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BasicFacebookFeatures
@@ -31,6 +27,19 @@ namespace BasicFacebookFeatures
                     throw new Exception("Object Must Be string or Image");
                 }
             }
+        }
+
+        internal static int calculateAge(DateTime i_BirthDate)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - i_BirthDate.Year;
+
+            if (i_BirthDate.Date > today.AddYears(-age))
+            {
+                age--;
+            }
+
+            return age;
         }
     }
 }

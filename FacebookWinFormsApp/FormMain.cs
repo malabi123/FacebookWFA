@@ -6,18 +6,16 @@ using System.Linq;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
-using System.Drawing;
 
 namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
-        private ChangingPictureBox m_ChangingPictureBoxUserPosts;
-        private FacebookWrapper.LoginResult m_LoginResult;
-        private FacebookWrapper.ObjectModel.User m_LoggedInUser;
+        private ChangingPictureBox m_ChangingPictureBoxUserPosts = null;
+        private FacebookWrapper.LoginResult m_LoginResult = null;
+        private FacebookWrapper.ObjectModel.User m_LoggedInUser = null;
         private List<ISocialNetworkFriend> m_FacebookFriends = null;
-        private string m_AccessToken = "EAAQpHAqlOz0BO0U0qHzPIC5lejD3UNWcYQk39bOTAAmZAzQsPoN1o2MQX9tqUZBgd0uFNqFxg5s54NDLjJOZCdeFmBaciZBDcGOEY4pfgYavidjdc2WKDBox2O9iaqh93oR4XmXgp4HcAzMWEe6nSyYhwenB7cptOQ6QVNe4DiMoKCIfFaZADvO7fnQZDZD";
-        private FriendsFacebookGameFacade m_GameFacade;
+        private FriendsFacebookGameFacade m_GameFacade = null;
 
         public FormMain()
         {
@@ -67,8 +65,7 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            m_LoginResult = FacebookService.Connect(m_AccessToken);
-            /*m_LoginResult = FacebookService.Login(
+            m_LoginResult = FacebookService.Login(
             "1171100321266493",
                 /// requested permissions:
                 "email",
@@ -80,7 +77,7 @@ namespace BasicFacebookFeatures
             "user_posts",
             "user_likes",
             "user_events"
-            );*/
+            );
 
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
@@ -177,19 +174,6 @@ namespace BasicFacebookFeatures
             removeTabPages();
         }
 
-        private static int calculateAge(DateTime i_BirthDate)
-        {
-            DateTime today = DateTime.Today;
-            int age = today.Year - i_BirthDate.Year;
-
-            if (i_BirthDate.Date > today.AddYears(-age))
-            {
-                age--;
-            }
-
-            return age;
-        }
-
         private void showProfileControls()
         {
             panel3.Visible = true;
@@ -213,7 +197,8 @@ namespace BasicFacebookFeatures
             labelGender.Text = m_LoggedInUser.Gender.ToString();
 
             DateTime birthday = DateTime.Parse(m_LoggedInUser.Birthday);
-            int age = calculateAge(birthday);
+            int age = Utility.calculateAge(birthday);
+
             labelUserAge.Text = $"{age},";
         }
 
@@ -238,12 +223,6 @@ namespace BasicFacebookFeatures
         private void showUserFriends()
         {
             listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.DisplayMember = "FullName"));
-
-            //Not working due to api, instead we are using fake freinds
-            /*foreach (User friend in m_LoggedInUser.Friends)
-            {
-                listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.Items.Add(friend)));
-            } */
 
             foreach (ISocialNetworkFriend friend in m_FacebookFriends)
             {
@@ -313,7 +292,6 @@ namespace BasicFacebookFeatures
 
             listBoxPagePosts.Items.Clear();
             listBoxPagePosts.DisplayMember = "Name";
-
             listBoxPostLikes.Items.Clear();
             listBoxPostComments.Items.Clear();
 
@@ -362,7 +340,6 @@ namespace BasicFacebookFeatures
 
         private void checkBoxFilterEventsByFriends_CheckedChanged(object sender, EventArgs e)
         {
-
             if (checkBoxFilterEventsByFriends.Checked)
             {
                 ISocialNetworkFriend friend = listBoxUserFriends.SelectedItem as ISocialNetworkFriend;
@@ -386,13 +363,13 @@ namespace BasicFacebookFeatures
 
             listBoxPostLikes.Items.Clear();
             listBoxPostLikes.DisplayMember = "Name";
-
             listBoxPostComments.Items.Clear();
             listBoxPostComments.DisplayMember = "Message";
 
             if (post != null)
             {
                 pictureBoxPagePosts.ImageLocation = post.PictureURL;
+
                 try
                 {
                     foreach (User user in post.LikedBy)
