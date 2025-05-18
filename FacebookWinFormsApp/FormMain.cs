@@ -16,6 +16,7 @@ namespace BasicFacebookFeatures
         private FacebookWrapper.ObjectModel.User m_LoggedInUser = null;
         private List<ISocialNetworkFriend> m_FacebookFriends = null;
         private FriendsFacebookGameFacade m_GameFacade = null;
+        string m_AccessToken = "EAAQpHAqlOz0BOy8SYBo3PKb2EiLkdojMosCG6GUa7LRd1HvObDi3GVpD0kmfuUTQEDbIrQe1K6x1cajhvq4TJKY8qtOQZBEif0y2ejOZADy3FdSxIOIKFJfcKXR3d5Q5rx8ZCtyymOGkuEhUVxQVVFVsNIs7GiAPUIP6ous8FhObG0fiZBbvravdggZDZD";
 
         public FormMain()
         {
@@ -65,7 +66,8 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            m_LoginResult = FacebookService.Login(
+            m_LoginResult = FacebookService.Connect(m_AccessToken);
+           /* m_LoginResult = FacebookService.Login(
             "1171100321266493",
                 /// requested permissions:
                 "email",
@@ -77,7 +79,7 @@ namespace BasicFacebookFeatures
             "user_posts",
             "user_likes",
             "user_events"
-            );
+            );*/
 
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
@@ -106,10 +108,9 @@ namespace BasicFacebookFeatures
 
         private void loadRealFriends()
         {
-            List<User> friendsList = m_LoggedInUser.Friends.ToList();
             m_FacebookFriends = new List<ISocialNetworkFriend>();
 
-            foreach (User friend in friendsList)
+            foreach(User friend in m_LoggedInUser.Friends)
             {
                 m_FacebookFriends.Add(new UserFriendAdapter(friend));
             }
@@ -212,55 +213,27 @@ namespace BasicFacebookFeatures
 
         private void showUserLikedPages()
         {
-            listBoxLikedPages.Invoke(new Action(() => listBoxLikedPages.DisplayMember = "Name"));
-
-            foreach (Page page in m_LoggedInUser.LikedPages)
-            {
-                listBoxLikedPages.Invoke(new Action(() => listBoxLikedPages.Items.Add(page)));
-            }
+            new PageDisplayer(listBoxLikedPages).DisplayItems(m_LoggedInUser.LikedPages);
         }
 
         private void showUserFriends()
         {
-            listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.DisplayMember = "FullName"));
-
-            foreach (ISocialNetworkFriend friend in m_FacebookFriends)
-            {
-                listBoxUserFriends.Invoke(new Action(() => listBoxUserFriends.Items.Add(friend)));
-            }
+            new FriendDisplayer(listBoxUserFriends).DisplayItems(m_FacebookFriends);
         }
 
         private void showOnlineFriends()
         {
-            listBoxOnlineFriends.Invoke(new Action(() => listBoxOnlineFriends.DisplayMember = "FullName"));
-
-            foreach (ISocialNetworkFriend friend in m_FacebookFriends)
-            {
-                if (friend.IsOnline)
-                {
-                    listBoxOnlineFriends.Invoke(new Action(() => listBoxOnlineFriends.Items.Add(friend)));
-                }
-            }
+            new OnlineFriendDisplayer(listBoxOnlineFriends).DisplayItems(m_FacebookFriends);
         }
 
         private void showUserPosts()
         {
-            listBoxUserPosts.Invoke(new Action(() => listBoxUserPosts.DisplayMember = "Name"));
-
-            foreach (Post post in m_LoggedInUser.Posts)
-            {
-                listBoxUserPosts.Invoke(new Action(() => listBoxUserPosts.Items.Add(post)));
-            }
+            new PostDisplayer(listBoxUserPosts).DisplayItems(m_LoggedInUser.Posts);
         }
 
         private void showUserEvents()
         {
-            listBoxEvents.Invoke(new Action(() => listBoxEvents.DisplayMember = "Name"));
-
-            foreach (Event ev in m_LoggedInUser.Events)
-            {
-                listBoxEvents.Invoke(new Action(() => listBoxEvents.Items.Add(ev)));
-            }
+            new EventDisplayer(listBoxEvents).DisplayItems(m_LoggedInUser.Events);
         }
 
         private void listBoxUserPosts_SelectedIndexChanged(object sender, EventArgs e)
@@ -289,28 +262,31 @@ namespace BasicFacebookFeatures
         private void listBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             Page page = listBoxLikedPages.SelectedItem as Page;
-
-            listBoxPagePosts.Items.Clear();
-            listBoxPagePosts.DisplayMember = "Name";
-            listBoxPostLikes.Items.Clear();
-            listBoxPostComments.Items.Clear();
+            resetChosenPage();
 
             if (page != null)
             {
                 pictureBoxLikedPages.ImageLocation = page.PictureURL;
-
-                try
-                {
-                    foreach (Post post in page.Posts)
-                    {
-                        listBoxUserPosts.Items.Add(post);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                tryLoadLikedPagePosts(page);
             }
+        }
+
+        private void tryLoadLikedPagePosts(Page page)
+        {
+            try
+            {
+                new PostDisplayer(listBoxUserPosts).DisplayItems(page.Posts);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void resetChosenPage()
+        {
+            listBoxPagePosts.Items.Clear();
+            resetChosenPost();
         }
 
         private void listBoxUserFriends_SelectedIndexChanged(object sender, EventArgs e)
@@ -360,11 +336,7 @@ namespace BasicFacebookFeatures
         private void listBoxPagePosts_SelectedIndexChanged(object sender, EventArgs e)
         {
             Post post = listBoxPagePosts.SelectedItem as Post;
-
-            listBoxPostLikes.Items.Clear();
-            listBoxPostLikes.DisplayMember = "Name";
-            listBoxPostComments.Items.Clear();
-            listBoxPostComments.DisplayMember = "Message";
+            resetChosenPost();
 
             if (post != null)
             {
@@ -372,21 +344,20 @@ namespace BasicFacebookFeatures
 
                 try
                 {
-                    foreach (User user in post.LikedBy)
-                    {
-                        listBoxPostLikes.Items.Add(user);
-                    }
-
-                    foreach (Comment comment in post.Comments)
-                    {
-                        listBoxPostComments.Items.Add(comment);
-                    }
+                    new UserDisplayer(listBoxPostLikes).DisplayItems(post.LikedBy);
+                    new CommentDisplayer(listBoxPostComments).DisplayItems(post.Comments);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void resetChosenPost()
+        {
+            listBoxPostLikes.Items.Clear();
+            listBoxPostComments.Items.Clear();
         }
 
         private void emailTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
