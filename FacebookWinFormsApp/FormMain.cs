@@ -16,6 +16,8 @@ namespace BasicFacebookFeatures
         private FacebookWrapper.ObjectModel.User m_LoggedInUser = null;
         private List<ISocialNetworkFriend> m_FacebookFriends = null;
         private FriendsFacebookGameFacade m_GameFacade = null;
+        private ItemSelectedNotifier<Page> m_LikedPageSelectedNotifier = new ItemSelectedNotifier<Page>();
+        private ItemSelectedNotifier<Post> m_LikedPagePostSelectedNotifier = new ItemSelectedNotifier<Post>();
         string m_AccessToken = "EAAQpHAqlOz0BOy8SYBo3PKb2EiLkdojMosCG6GUa7LRd1HvObDi3GVpD0kmfuUTQEDbIrQe1K6x1cajhvq4TJKY8qtOQZBEif0y2ejOZADy3FdSxIOIKFJfcKXR3d5Q5rx8ZCtyymOGkuEhUVxQVVFVsNIs7GiAPUIP6ous8FhObG0fiZBbvravdggZDZD";
 
         public FormMain()
@@ -25,6 +27,18 @@ namespace BasicFacebookFeatures
             initializeUserControlFriendsFacebookGameFacade();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
             removeTabPages();
+            subscribeToLikedPageNotifier();
+            subscribeToPostNotifier();
+        }
+
+        private void subscribeToLikedPageNotifier()
+        {
+            m_LikedPageSelectedNotifier.Subscribe(onPageSelected);
+        }
+
+        private void subscribeToPostNotifier()
+        {
+            m_LikedPagePostSelectedNotifier.Subscribe(onLikedPagePostSelected);
         }
 
         private void removeTabPages()
@@ -267,15 +281,20 @@ namespace BasicFacebookFeatures
             if (page != null)
             {
                 pictureBoxLikedPages.ImageLocation = page.PictureURL;
-                tryLoadLikedPagePosts(page);
+                m_LikedPageSelectedNotifier.SelectItem(page);
             }
         }
 
-        private void tryLoadLikedPagePosts(Page page)
+        private void onPageSelected(Page i_Page)
+        {
+            tryLoadLikedPagePosts(i_Page);
+        }
+
+        private void tryLoadLikedPagePosts(Page i_page)
         {
             try
             {
-                new PostDisplayer(listBoxUserPosts).DisplayItems(page.Posts);
+                new PostDisplayer(listBoxUserPosts).DisplayItems(i_page.Posts);
             }
             catch (Exception ex)
             {
@@ -341,16 +360,37 @@ namespace BasicFacebookFeatures
             if (post != null)
             {
                 pictureBoxPagePosts.ImageLocation = post.PictureURL;
+                m_LikedPagePostSelectedNotifier.SelectItem(post);
+            }
+        }
 
-                try
-                {
-                    new UserDisplayer(listBoxPostLikes).DisplayItems(post.LikedBy);
-                    new CommentDisplayer(listBoxPostComments).DisplayItems(post.Comments);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+        private void onLikedPagePostSelected(Post i_Post)
+        {
+            tryUploadLikesOfSelectedLikedPagePost(i_Post);
+            tryUploadCommentsOfSelectedLikedPagePost(i_Post);
+        }
+
+        private void tryUploadLikesOfSelectedLikedPagePost(Post i_Post)
+        {
+            try
+            {
+                new UserDisplayer(listBoxPostLikes).DisplayItems(i_Post.LikedBy);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void tryUploadCommentsOfSelectedLikedPagePost(Post i_Post)
+        {
+            try
+            {     
+                new CommentDisplayer(listBoxPostComments).DisplayItems(i_Post.Comments);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

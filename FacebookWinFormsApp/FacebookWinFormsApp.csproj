@@ -107,6 +107,7 @@
     </Compile>
     <Compile Include="ISocialNetworkFriend.cs" />
     <Compile Include="CommentDisplayer.cs" />
+    <Compile Include="ItemSelectedNotifier.cs" />
     <Compile Include="ListBoxDataDisplayer.cs" />
     <Compile Include="OnlineFriendDisplayer.cs" />
     <Compile Include="PageDisplayercs.cs" />
