@@ -30,6 +30,11 @@ namespace BasicFacebookFeatures
         public int MaxScoreUntilNow { get; private set; } = 0;
         public int CurrentRound { get; private set; } = 0;
 
+        private ScoringStrategy m_NameScoring;
+        private ScoringStrategy m_HometownScoring;
+        private ScoringStrategy m_BirthdayScoring;
+
+
         public List<ISocialNetworkFriend> CopyFriendsList
         {
             set
@@ -55,6 +60,7 @@ namespace BasicFacebookFeatures
             {
                 checkForGameNotStarted();
                 m_IsNameEnabled = value;
+                m_NameScoring.SetIsEnable(value);
             }
         }
 
@@ -68,6 +74,7 @@ namespace BasicFacebookFeatures
             {
                 checkForGameNotStarted();
                 m_IsBirthdayEnabled = value;
+                m_BirthdayScoring.SetIsEnable(value);
             }
         }
 
@@ -81,6 +88,7 @@ namespace BasicFacebookFeatures
             {
                 checkForGameNotStarted();
                 m_IsHometownEnabled = value;
+                m_HometownScoring.SetIsEnable(value);
             }
         }
 
@@ -152,7 +160,32 @@ namespace BasicFacebookFeatures
 
         private FriendsFacebookGame()
         {
+            setScoringStrategy();
+        }
 
+        private void setScoringStrategy()
+        {
+            m_NameScoring = new ScoringStrategy(this);
+            m_HometownScoring = new ScoringStrategy(this);
+            m_BirthdayScoring = new ScoringStrategy(this);
+            m_NameScoring.AnswerScore = NameCalulateScore;
+            m_BirthdayScoring.AnswerScore = BirthdayCalulateScore;
+            m_HometownScoring.AnswerScore = HometownCalulateScore;
+        }
+
+        private bool NameCalulateScore(FriendsFacebookGame i_Game)
+        {
+            return m_NameAnswer.ToLower() == m_CopyFriendsList[m_CurrentFriendIndex].FullName.ToLower();
+        }
+
+        private bool BirthdayCalulateScore(FriendsFacebookGame i_Game)
+        {
+            return m_BirthdayAnswer == m_CopyFriendsList[m_CurrentFriendIndex].Birthday;
+        }
+
+        private bool HometownCalulateScore(FriendsFacebookGame i_Game)
+        {
+           return m_HometownAnswer.ToLower() == m_CopyFriendsList[m_CurrentFriendIndex].Hometown.ToLower();
         }
 
         public void StartGame()
@@ -311,38 +344,13 @@ namespace BasicFacebookFeatures
 
         private void updateScore()
         {
-            if (IsNameEnabled)
-            {
-                MaxScoreUntilNow++;
+            MaxScoreUntilNow += m_NameScoring.MaxPoints + 
+                                m_BirthdayScoring.MaxPoints +
+                                m_HometownScoring.MaxPoints;
 
-                if (m_NameAnswer.ToLower() == m_CopyFriendsList[m_CurrentFriendIndex].FullName.ToLower())
-                {
-                    Score++;
-                    m_NameAnswer = string.Empty;
-                }
-            }
-
-            if (IsBirthdayEnabled)
-            {
-                MaxScoreUntilNow++;
-
-                if (m_BirthdayAnswer == m_CopyFriendsList[m_CurrentFriendIndex].Birthday)
-                {
-                    Score++;
-                    m_BirthdayAnswer = DateTime.Today;
-                }
-            }
-
-            if (IsHometownEnabled)
-            {
-                MaxScoreUntilNow++;
-
-                if (m_HometownAnswer.ToLower() == m_CopyFriendsList[m_CurrentFriendIndex].Hometown.ToLower())
-                {
-                    Score++;
-                    m_HometownAnswer = string.Empty;
-                }
-            }
+            Score += m_NameScoring.CalculateScore() + 
+                     m_BirthdayScoring.CalculateScore() + 
+                     m_HometownScoring.CalculateScore();
         }
 
         private bool isLegalNumberOfRounds(int i_NumberOfRounds)
