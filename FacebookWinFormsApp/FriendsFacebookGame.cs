@@ -18,6 +18,13 @@ namespace BasicFacebookFeatures
         private Random m_Random = null;
         private int m_CurrentFriendIndex = 0;
         private List<ISocialNetworkFriend> m_CopyFriendsList = null;
+        private ScoringStrategy m_NameScoring = null;
+        private ScoringStrategy m_HometownScoring = null;
+        private ScoringStrategy m_BirthdayScoring = null;
+
+        public int Score { get; private set; } = 0;
+        public int MaxScoreUntilNow { get; private set; } = 0;
+        public int CurrentRound { get; private set; } = 0;
 
         public static FriendsFacebookGame GameInstance
         {
@@ -26,14 +33,6 @@ namespace BasicFacebookFeatures
                 return sr_GameInstance;
             }
         }
-        public int Score { get; private set; } = 0;
-        public int MaxScoreUntilNow { get; private set; } = 0;
-        public int CurrentRound { get; private set; } = 0;
-
-        private ScoringStrategy m_NameScoring;
-        private ScoringStrategy m_HometownScoring;
-        private ScoringStrategy m_BirthdayScoring;
-
 
         public List<ISocialNetworkFriend> CopyFriendsList
         {
@@ -168,24 +167,24 @@ namespace BasicFacebookFeatures
             m_NameScoring = new ScoringStrategy(this);
             m_HometownScoring = new ScoringStrategy(this);
             m_BirthdayScoring = new ScoringStrategy(this);
-            m_NameScoring.AnswerScore = NameCalulateScore;
-            m_BirthdayScoring.AnswerScore = BirthdayCalulateScore;
-            m_HometownScoring.AnswerScore = HometownCalulateScore;
+            m_NameScoring.AnswerScore = nameCalulateScore;
+            m_BirthdayScoring.AnswerScore = birthdayCalulateScore;
+            m_HometownScoring.AnswerScore = hometownCalulateScore;
         }
 
-        private bool NameCalulateScore(FriendsFacebookGame i_Game)
+        private bool nameCalulateScore(FriendsFacebookGame i_Game)
         {
-            return m_NameAnswer.ToLower() == m_CopyFriendsList[m_CurrentFriendIndex].FullName.ToLower();
+            return i_Game.m_NameAnswer.ToLower() == i_Game.m_CopyFriendsList[m_CurrentFriendIndex].FullName.ToLower();
         }
 
-        private bool BirthdayCalulateScore(FriendsFacebookGame i_Game)
+        private bool birthdayCalulateScore(FriendsFacebookGame i_Game)
         {
-            return m_BirthdayAnswer == m_CopyFriendsList[m_CurrentFriendIndex].Birthday;
+            return i_Game.m_BirthdayAnswer == i_Game.m_CopyFriendsList[m_CurrentFriendIndex].Birthday;
         }
 
-        private bool HometownCalulateScore(FriendsFacebookGame i_Game)
+        private bool hometownCalulateScore(FriendsFacebookGame i_Game)
         {
-           return m_HometownAnswer.ToLower() == m_CopyFriendsList[m_CurrentFriendIndex].Hometown.ToLower();
+            return i_Game.m_HometownAnswer.ToLower() == i_Game.m_CopyFriendsList[m_CurrentFriendIndex].Hometown.ToLower();
         }
 
         public void StartGame()
@@ -344,12 +343,12 @@ namespace BasicFacebookFeatures
 
         private void updateScore()
         {
-            MaxScoreUntilNow += m_NameScoring.MaxPoints + 
+            MaxScoreUntilNow += m_NameScoring.MaxPoints +
                                 m_BirthdayScoring.MaxPoints +
                                 m_HometownScoring.MaxPoints;
 
-            Score += m_NameScoring.CalculateScore() + 
-                     m_BirthdayScoring.CalculateScore() + 
+            Score += m_NameScoring.CalculateScore() +
+                     m_BirthdayScoring.CalculateScore() +
                      m_HometownScoring.CalculateScore();
         }
 

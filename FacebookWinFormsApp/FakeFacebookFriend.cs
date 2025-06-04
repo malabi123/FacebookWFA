@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace BasicFacebookFeatures
 {
-    public class FakeFacebookFriend: ISocialNetworkFriend
+    public class FakeFacebookFriend : ISocialNetworkFriend
     {
         public string FullName { get; set; }
         public bool IsOnline { get; set; }

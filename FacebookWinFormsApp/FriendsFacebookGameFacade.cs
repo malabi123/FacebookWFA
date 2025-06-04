@@ -86,7 +86,7 @@ namespace BasicFacebookFeatures
 
         private void updateNextFriend()
         {
-            Utility.setImageInPictureBoxFromObject(pictureBoxGame, m_Game.GetCurrentFriendImage());
+            Utility.SetImageInPictureBoxFromObject(pictureBoxGame, m_Game.GetCurrentFriendImage());
 
             if (!m_Game.IsNameEnabled)
             {

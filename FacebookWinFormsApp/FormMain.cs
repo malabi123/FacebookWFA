@@ -18,7 +18,6 @@ namespace BasicFacebookFeatures
         private FriendsFacebookGameFacade m_GameFacade = null;
         private ItemSelectedNotifier<Page> m_LikedPageSelectedNotifier = new ItemSelectedNotifier<Page>();
         private ItemSelectedNotifier<Post> m_LikedPagePostSelectedNotifier = new ItemSelectedNotifier<Post>();
-        string m_AccessToken = "EAAQpHAqlOz0BOy8SYBo3PKb2EiLkdojMosCG6GUa7LRd1HvObDi3GVpD0kmfuUTQEDbIrQe1K6x1cajhvq4TJKY8qtOQZBEif0y2ejOZADy3FdSxIOIKFJfcKXR3d5Q5rx8ZCtyymOGkuEhUVxQVVFVsNIs7GiAPUIP6ous8FhObG0fiZBbvravdggZDZD";
 
         public FormMain()
         {
@@ -80,8 +79,7 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            m_LoginResult = FacebookService.Connect(m_AccessToken);
-           /* m_LoginResult = FacebookService.Login(
+            m_LoginResult = FacebookService.Login(
             "1171100321266493",
                 /// requested permissions:
                 "email",
@@ -93,7 +91,7 @@ namespace BasicFacebookFeatures
             "user_posts",
             "user_likes",
             "user_events"
-            );*/
+            );
 
             if (!string.IsNullOrEmpty(m_LoginResult.AccessToken))
             {
@@ -124,7 +122,7 @@ namespace BasicFacebookFeatures
         {
             m_FacebookFriends = new List<ISocialNetworkFriend>();
 
-            foreach(User friend in m_LoggedInUser.Friends)
+            foreach (User friend in m_LoggedInUser.Friends)
             {
                 m_FacebookFriends.Add(new UserFriendAdapter(friend));
             }
@@ -212,7 +210,7 @@ namespace BasicFacebookFeatures
             labelGender.Text = m_LoggedInUser.Gender.ToString();
 
             DateTime birthday = DateTime.Parse(m_LoggedInUser.Birthday);
-            int age = Utility.calculateAge(birthday);
+            int age = Utility.CalculateAge(birthday);
 
             labelUserAge.Text = $"{age},";
         }
@@ -276,6 +274,7 @@ namespace BasicFacebookFeatures
         private void listBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             Page page = listBoxLikedPages.SelectedItem as Page;
+
             resetChosenPage();
 
             if (page != null)
@@ -290,11 +289,11 @@ namespace BasicFacebookFeatures
             tryLoadLikedPagePosts(i_Page);
         }
 
-        private void tryLoadLikedPagePosts(Page i_page)
+        private void tryLoadLikedPagePosts(Page i_Page)
         {
             try
             {
-                new PostDisplayer(listBoxUserPosts).DisplayItems(i_page.Posts);
+                new PostDisplayer(listBoxUserPosts).DisplayItems(i_Page.Posts);
             }
             catch (Exception ex)
             {
@@ -314,7 +313,7 @@ namespace BasicFacebookFeatures
 
             if (friend != null)
             {
-                Utility.setImageInPictureBoxFromObject(pictureBoxFriendProfilePicture, friend.ProfileImage);
+                Utility.SetImageInPictureBoxFromObject(pictureBoxFriendProfilePicture, friend.ProfileImage);
                 listBoxOnlineFriends.SelectedItem = null;
 
                 foreach (object item in listBoxOnlineFriends.Items)
@@ -355,6 +354,7 @@ namespace BasicFacebookFeatures
         private void listBoxPagePosts_SelectedIndexChanged(object sender, EventArgs e)
         {
             Post post = listBoxPagePosts.SelectedItem as Post;
+
             resetChosenPost();
 
             if (post != null)
@@ -385,7 +385,7 @@ namespace BasicFacebookFeatures
         private void tryUploadCommentsOfSelectedLikedPagePost(Post i_Post)
         {
             try
-            {     
+            {
                 new CommentDisplayer(listBoxPostComments).DisplayItems(i_Post.Comments);
             }
             catch (Exception ex)

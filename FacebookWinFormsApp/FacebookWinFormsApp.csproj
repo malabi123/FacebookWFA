@@ -105,7 +105,7 @@
     <Compile Include="FriendsFacebookGameFacade.Designer.cs">
       <DependentUpon>FriendsFacebookGameFacade.cs</DependentUpon>
     </Compile>
-    <Compile Include="IScoringStrategy.cs" />
+    <Compile Include="ScoringStrategy.cs" />
     <Compile Include="ISocialNetworkFriend.cs" />
     <Compile Include="CommentDisplayer.cs" />
     <Compile Include="ItemSelectedNotifier.cs" />

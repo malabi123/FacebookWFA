@@ -6,7 +6,7 @@ namespace BasicFacebookFeatures
 {
     internal static class Utility
     {
-        internal static void setImageInPictureBoxFromObject(PictureBox i_PictureBox, object i_Picture)
+        internal static void SetImageInPictureBoxFromObject(PictureBox i_PictureBox, object i_Picture)
         {
             string pictureUrl = i_Picture as string;
 
@@ -29,7 +29,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        internal static int calculateAge(DateTime i_BirthDate)
+        internal static int CalculateAge(DateTime i_BirthDate)
         {
             DateTime today = DateTime.Today;
             int age = today.Year - i_BirthDate.Year;

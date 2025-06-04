@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BasicFacebookFeatures
@@ -24,10 +21,10 @@ namespace BasicFacebookFeatures
 
             foreach (T item in i_Items)
             {
-                if(Condition(item))
+                if (Condition(item))
                 {
                     m_ListBox.Invoke(new Action(() => m_ListBox.Items.Add(item)));
-                } 
+                }
             }
         }
 

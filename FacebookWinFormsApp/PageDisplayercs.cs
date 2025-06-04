@@ -5,7 +5,8 @@ namespace BasicFacebookFeatures
 {
     public class PageDisplayer : ListBoxDataDisplayer<Page>
     {
-        public PageDisplayer(ListBox listBox) : base(listBox) { }
+        public PageDisplayer(ListBox i_ListBox) : base(i_ListBox) { }
+
         protected override string GetDisplayMember() => "Name";
     }
 }

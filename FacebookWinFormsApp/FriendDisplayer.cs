@@ -1,11 +1,11 @@
-﻿using FacebookWrapper.ObjectModel;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace BasicFacebookFeatures
 {
     public class FriendDisplayer : ListBoxDataDisplayer<ISocialNetworkFriend>
     {
-        public FriendDisplayer(ListBox listBox) : base(listBox) { }
+        public FriendDisplayer(ListBox i_ListBox) : base(i_ListBox) { }
+       
         protected override string GetDisplayMember() => "FullName";
     }
 }

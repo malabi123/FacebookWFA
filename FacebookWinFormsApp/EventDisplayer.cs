@@ -5,7 +5,8 @@ namespace BasicFacebookFeatures
 {
     public class EventDisplayer : ListBoxDataDisplayer<Event>
     {
-        public EventDisplayer(ListBox listBox) : base(listBox) { }
+        public EventDisplayer(ListBox i_ListBox) : base(i_ListBox) { }
+
         protected override string GetDisplayMember() => "Name";
     }
 }

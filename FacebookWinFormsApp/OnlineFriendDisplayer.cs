@@ -4,7 +4,7 @@ namespace BasicFacebookFeatures
 {
     public class OnlineFriendDisplayer : ListBoxDataDisplayer<ISocialNetworkFriend>
     {
-        public OnlineFriendDisplayer(ListBox listBox) : base(listBox) { }
+        public OnlineFriendDisplayer(ListBox i_ListBox) : base(i_ListBox) { }
 
         protected override string GetDisplayMember() => "FullName";
 
